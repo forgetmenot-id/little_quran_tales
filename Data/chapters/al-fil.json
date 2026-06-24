@@ -1,0 +1,306 @@
+{
+  "id": "al-fil",
+  "title": "Chapter 1 - Gerombolan Burung",
+  "bgm": "bgm_prolog",
+  "nextChapter": "minigame",
+  "scenes": [
+    {
+      "id": "alfil_01",
+      "background": "bg_langit_gurun",
+      "effect": "fade_white",
+      "narration": true,
+      "text": "Cahaya putih menghilang.\nLittle Kid perlahan membuka mata.",
+      "textEn": "The white light fades.\nLittle Kid slowly opens his eyes."
+    },
+    {
+      "id": "alfil_02",
+      "narration": true,
+      "text": "Tubuhnya terasa ringan.\nIa mengepakkan sayapnya.\n\nAku...\nMenjadi seekor burung?",
+      "textEn": "His body feels light.\nHe flaps his wings.\n\nI...\nHave become a bird?"
+    },
+    {
+      "id": "alfil_03",
+      "background": "bg_langit_gurun",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Syukurlah!\nAku kira aku kehilanganmu.",
+      "textEn": "Thank goodness!\nI thought I lost you."
+    },
+    {
+      "id": "alfil_04",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Kau baik-baik saja?",
+      "textEn": "Are you alright?"
+    },
+    {
+      "id": "alfil_04b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "......",
+      "textEn": "......"
+    },
+    {
+      "id": "alfil_05",
+      "effect": "screen_shake",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_ababil", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Kalian berdua!\nCepat ikut!",
+      "textEn": "You two!\nQuick, follow me!"
+    },
+    {
+      "id": "alfil_06",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_ababil", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Ikut ke mana?",
+      "textEn": "Follow where?"
+    },
+    {
+      "id": "alfil_07",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_ababil", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Pasukan gajah sudah mendekat!\nSemua gerombolan dipanggil!",
+      "textEn": "The elephant army is approaching!\nAll flocks are called!"
+    },
+    {
+      "id": "alfil_08",
+      "background": "bg_kabah_kejauhan",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Mereka bertiga terbang bersama.\nDi bawah, Ka'bah terlihat dari kejauhan.",
+      "textEn": "The three of them fly together.\nBelow, the Ka'bah is visible in the distance."
+    },
+    {
+      "id": "alfil_09",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Penduduk Mekkah meninggalkan kota.\n\nMereka pergi?",
+      "textEn": "The people of Mecca are leaving the city.\n\nThey're leaving?"
+    },
+    {
+      "id": "alfil_10",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Kenapa mereka meninggalkan Rumah Suci?",
+      "textEn": "Why are they abandoning the Sacred House?"
+    },
+    {
+      "id": "alfil_11",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Mereka tak mampu melawan.\nTetapi pemimpin mereka berkata...",
+      "textEn": "They cannot fight.\nBut their leader said..."
+    },
+    {
+      "id": "alfil_12",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Rumah itu mempunyai Pemilik.\nDan Dia akan menjaganya.",
+      "textEn": "That House has an Owner.\nAnd He will protect it."
+    },
+    {
+      "id": "alfil_13",
+      "background": "bg_pasukan_gajah",
+      "effect": "screen_shake",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Debu mulai memenuhi cakrawala.\n\nBUM...\nBUM...\nBUM...",
+      "textEn": "Dust begins to fill the horizon.\n\nBOOM...\nBOOM...\nBOOM..."
+    },
+    {
+      "id": "alfil_14",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Gajah-gajah perang mulai terlihat.\n\nMereka sebesar gunung...",
+      "textEn": "War elephants begin to appear.\n\nThey are as big as mountains..."
+    },
+    {
+      "id": "alfil_14b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "...",
+      "textEn": "..."
+    },
+    {
+      "id": "alfil_15",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Siapa mereka?",
+      "textEn": "Who are they?"
+    },
+    {
+      "id": "alfil_16",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Pasukan Abraha.\nDia penguasa dari selatan.",
+      "textEn": "Abraha's army.\nHe is the ruler from the south."
+    },
+    {
+      "id": "alfil_17",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Dia membangun rumah ibadah yang megah.\nNamun manusia tetap mendatangi Rumah Suci.",
+      "textEn": "He built a magnificent house of worship.\nYet people still came to the Sacred House."
+    },
+    {
+      "id": "alfil_18",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Kesombongan membuatnya marah.\nDan sekarang...\nDia ingin menghancurkannya.",
+      "textEn": "His arrogance made him angry.\nAnd now...\nHe wants to destroy it."
+    },
+    {
+      "id": "alfil_19",
+      "background": "bg_kabah_kejauhan",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Mereka terus terbang.\nLittle Kid melihat berhala-berhala di sekitar Ka'bah.\n\nTetapi...\nBukankah manusia di sana sudah tersesat?",
+      "textEn": "They keep flying.\nLittle Kid sees idols around the Ka'bah.\n\nBut...\nAren't the people there already lost?"
+    },
+    {
+      "id": "alfil_20",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Rumah itu dibangun oleh Ibrahim.\nManusia bisa berubah.\nTetapi janji Tuhan tidak berubah.",
+      "textEn": "That House was built by Ibrahim.\nPeople can change.\nBut God's promise does not change."
+    },
+    {
+      "id": "alfil_21",
+      "background": "bg_pasukan_gajah",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Tiba-tiba gajah terbesar berhenti.\nPara tentara memukulnya.\nNamun ia tidak mau melangkah.",
+      "textEn": "Suddenly the largest elephant stops.\nThe soldiers strike it.\nBut it refuses to step forward."
+    },
+    {
+      "id": "alfil_22",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Lihat.\nBahkan dia tahu.\nBahwa rumah itu tidak boleh disentuh.",
+      "textEn": "Look.\nEven he knows.\nThat house must not be touched."
+    },
+    {
+      "id": "alfil_23",
+      "speaker": "ABABIL",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Pegang erat.\nHari ini...\nKau terbang bersama kami.\nHari ini...\nKau bagian dari gerombolan.",
+      "textEn": "Hold tight.\nToday...\nYou fly with us.\nToday...\nYou are part of the flock."
+    },
+    {
+      "id": "alfil_24",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Little Kid memandang batu kecil di cakarnya.\n\nAku...\nBagian dari gerombolan?",
+      "textEn": "Little Kid looks at the small stone in his claws.\n\nI...\nPart of the flock?"
+    },
+    {
+      "id": "alfil_24b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "......",
+      "textEn": "......"
+    },
+    {
+      "id": "alfil_25",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.65 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_ababil", "scale": 0.65 }
+      ],
+      "text": "Ayo!\nKita tunjukkan kalau yang kecil\njuga bisa melakukan hal besar!",
+      "textEn": "Come on!\nLet's show them that even the small ones\ncan do great things!"
+    }
+  ]
+}

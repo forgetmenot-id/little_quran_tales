@@ -1,0 +1,129 @@
+{
+  "id": "ending_alfil",
+  "title": "Surah Al-Fil",
+  "nextChapter": "",
+  "scenes": [
+    {
+      "id": "end_01",
+      "background": "bg_game",
+      "effect": "fade_in",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Perlahan...\nmedan perang berdebu menjadi sunyi.\nHembusan angin membawa ketenangan.",
+      "textEn": "Slowly...\nthe dusty battlefield falls silent.\nA breeze brings calm."
+    },
+    {
+      "id": "end_02",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Anakku...\nKau telah berhasil.\nSurah Al-Fil kini kembali dalam genggamanmu.",
+      "textEn": "My child...\nYou have succeeded.\nSurah Al-Fil is now back in your grasp."
+    },
+    {
+      "id": "end_03",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Cerita tentang pasukan gajah dan burung Ababil ini...\nAdalah pengingat bahwa Allah selalu\nmelindungi rumah-Nya.",
+      "textEn": "This story of the elephant army\nand the Ababil birds...\nIs a reminder that Allah always protects His House."
+    },
+    {
+      "id": "end_04",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Namun, ini baru permulaan.\nMasih banyak kisah yang hilang...\nMenunggu untuk dikembalikan.",
+      "textEn": "But this is just the beginning.\nThere are still many lost stories...\nWaiting to be restored."
+    },
+    {
+      "id": "end_05",
+      "effect": "golden_glow",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Dan ketahuilah...\nDi antara kerudung malam yang gelap...",
+      "textEn": "And know this...\nBehind the veil of the dark night..."
+    },
+    {
+      "id": "end_06",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Pembawa cahaya akan lahir sebentar lagi.\nDi era ini.\nDi antara manusia yang terlupa.",
+      "textEn": "The bearer of light will be born soon.\nIn this era.\nAmong the forgetful people."
+    },
+    {
+      "id": "end_07",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Pembawa cahaya?\nMaksudmu... Nabi?",
+      "textEn": "Bearer of light?\nYou mean... a Prophet?"
+    },
+    {
+      "id": "end_08",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Waktunya akan tiba.\nDan engkau, wahai Little Kid,\nakan menjadi saksi perjalanannya.",
+      "textEn": "The time will come.\nAnd you, O Little Kid,\nwill witness his journey."
+    },
+    {
+      "id": "end_09",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Little Kid terdiam.\nLalu halaman buku mulai bersinar...",
+      "textEn": "Little Kid falls silent.\nThen the page begins to glow..."
+    },
+    {
+      "id": "end_10",
+      "effect": "fade_white",
+      "narration": true,
+      "text": "Cahaya memenuhi ruangan...",
+      "textEn": "Light fills the room..."
+    },
+    {
+      "id": "end_11",
+      "narration": true,
+      "text": "Sebuah gerbang menuju tempat lain terbuka.\n\nLittle Kid melangkah masuk.",
+      "textEn": "A gate to another place opens.\n\nLittle Kid steps inside."
+    },
+    {
+      "id": "end_12",
+      "effect": "fade_black",
+      "narration": true,
+      "text": "--- To Be Continued ---\n\nKisah selanjutnya:\nChapter 2 - Al-Quraisy",
+      "textEn": "--- To Be Continued ---\n\nNext story:\nChapter 2 - Al-Quraisy"
+    }
+  ]
+}

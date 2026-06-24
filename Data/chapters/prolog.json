@@ -1,0 +1,279 @@
+{
+  "id": "prolog",
+  "title": "Gerbang Kiamat dan Kitab Kosong",
+  "nextChapter": "al-fil",
+  "scenes": [
+    {
+      "id": "prolog_00",
+      "background": "bg_langit_kiamat",
+      "bgm": "bgm_prolog",
+      "effect": "fade_in",
+      "narration": true,
+      "text": "Pada suatu pagi...",
+      "textEn": "One morning..."
+    },
+    {
+      "id": "prolog_01",
+      "effect": "screen_shake",
+      "narration": true,
+      "text": "Matahari terbit dari barat.",
+      "textEn": "The sun rises from the west."
+    },
+    {
+      "id": "prolog_02",
+      "narration": true,
+      "text": "Manusia dipenuhi rasa takut.",
+      "textEn": "Humanity is filled with fear."
+    },
+    {
+      "id": "prolog_03",
+      "narration": true,
+      "text": "Namun...",
+      "textEn": "But..."
+    },
+    {
+      "id": "prolog_04",
+      "effect": "fade_black",
+      "narration": true,
+      "text": "Semuanya telah terlambat.",
+      "textEn": "Everything was too late."
+    },
+    {
+      "id": "prolog_05",
+      "background": "bg_loteng",
+      "effect": "screen_shake",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Oi! Bangun! Aku tersesat!",
+      "textEn": "Hey! Wake up! I'm lost!"
+    },
+    {
+      "id": "prolog_05b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "...",
+      "textEn": "..."
+    },
+    {
+      "id": "prolog_06",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Aku Hudhud! Kalau tidak kembali... Aku akan dihukum Raja Sulaiman!",
+      "textEn": "I'm Hudhud! If I don't return... I'll be punished by King Solomon!"
+    },
+    {
+      "id": "prolog_06b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "......",
+      "textEn": "......"
+    },
+    {
+      "id": "prolog_07",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Buka buku itu!",
+      "textEn": "Open that book!"
+    },
+    {
+      "id": "prolog_07b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "...?",
+      "textEn": "...?"
+    },
+    {
+      "id": "prolog_08",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Halaman pertama... kosong.\nHalaman berikutnya... kosong.\nSemuanya kosong.",
+      "textEn": "The first page... empty.\nThe next page... empty.\nAll of them empty."
+    },
+    {
+      "id": "prolog_09",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Hah?! Ke mana semua kisahnya?",
+      "textEn": "Huh?! Where did all the stories go?"
+    },
+    {
+      "id": "prolog_09b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "...",
+      "textEn": "..."
+    },
+    {
+      "id": "prolog_10",
+      "effect": "golden_glow",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Cahaya emas perlahan muncul dari arah buku...",
+      "textEn": "A golden light slowly emerges from the book..."
+    },
+    {
+      "id": "prolog_11",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Aku telah kosong.",
+      "textEn": "I have been empty."
+    },
+    {
+      "id": "prolog_12",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Karena manusia melupakan isi dan maknaku.",
+      "textEn": "Because mankind forgot my contents and my meaning."
+    },
+    {
+      "id": "prolog_13",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Dan dunia pun kehilangan cahayanya.",
+      "textEn": "And the world lost its light."
+    },
+    {
+      "id": "prolog_14",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Tetapi... Masih ada harapan.",
+      "textEn": "But... There is still hope."
+    },
+    {
+      "id": "prolog_15",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Wahai jiwa yang belum ternoda dosa...",
+      "textEn": "O soul untouched by sin..."
+    },
+    {
+      "id": "prolog_16",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Maukah engkau mengembalikan kisah-kisah yang hilang?",
+      "textEn": "Would you restore the lost stories?"
+    },
+    {
+      "id": "prolog_17",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "...",
+      "textEn": "..."
+    },
+    {
+      "id": "prolog_18",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Setiap kisah yang kembali... Akan menghidupkan kembali cahaya dunia.",
+      "textEn": "Each story that returns... Will rekindle the light of the world."
+    },
+    {
+      "id": "prolog_19",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Dan mungkin... Menyelamatkan manusia dari petaka yang telah mendekat.",
+      "textEn": "And perhaps... Save mankind from the calamity that draws near."
+    },
+    {
+      "id": "prolog_20",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "Kita benar-benar melakukan ini?",
+      "textEn": "Are we really doing this?"
+    },
+    {
+      "id": "prolog_20b",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 },
+        { "name": "spr_buku_tua", "scale": 0.5 }
+      ],
+      "text": "...",
+      "textEn": "..."
+    },
+    {
+      "id": "prolog_21",
+      "effect": "fade_white",
+      "narration": true,
+      "text": "Gerbang cahaya terbuka... Petualangan dimulai.",
+      "textEn": "A gateway of light opens... The adventure begins."
+    }
+  ]
+}

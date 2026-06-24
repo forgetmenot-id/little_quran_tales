@@ -1,0 +1,220 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:HiDef
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Fonts/SettingsFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/build:Fonts/SettingsFont.spritefont
+
+#begin Fonts/GameFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/build:Fonts/GameFont.spritefont
+
+#begin Images/UI/Splash.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/Splash.png
+
+#begin Images/UI/menu_bg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/menu_bg.png
+
+#begin Images/UI/menu_logo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/menu_logo.png
+
+#begin Images/UI/icon_story.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/icon_story.png
+
+#begin Images/UI/icon_games.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/icon_games.png
+
+#begin Images/UI/icon_library.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/icon_library.png
+
+#begin Images/UI/icon_settings.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/icon_settings.png
+
+#begin Images/UI/hover_button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/hover_button.png
+
+#begin Images/UI/panel_chapter.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/panel_chapter.png
+
+#begin Images/UI/panel_dialog.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/panel_dialog.png
+
+#begin Images/UI/setting_border.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/setting_border.png
+
+#begin Images/UI/LoadingScreen.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/LoadingScreen.jpg
+
+#begin Images/UI/icon_home.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/UI/icon_home.png
+
+#begin Audio/BGM/bgm_menu.oga
+/importer:OggImporter
+/processor:SongProcessor
+/build:Audio/BGM/bgm_menu.oga
+
+#begin Audio/BGM/bgm_prolog.oga
+/importer:OggImporter
+/processor:SongProcessor
+/build:Audio/BGM/bgm_prolog.oga
+
+#begin Audio/BGM/bgm_minigame.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/build:Audio/BGM/bgm_minigame.ogg
+
+#begin Audio/SFX/sfx_click.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/build:Audio/SFX/sfx_click.wav
+
+#begin Audio/SFX/sfx_bum.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/build:Audio/SFX/sfx_bum.wav
+
+#begin Audio/SFX/sfx_stone_drop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/build:Audio/SFX/sfx_stone_drop.wav
+
+#begin Audio/SFX/sfx_stone_hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/build:Audio/SFX/sfx_stone_hit.wav
+
+#begin Images/BGs/bg_langit_kiamat.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/BGs/bg_langit_kiamat.jpg
+
+#begin Images/BGs/bg_loteng.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/BGs/bg_loteng.jpg
+
+#begin Images/BGs/bg_langit_gurun.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/BGs/bg_langit_gurun.jpg
+
+#begin Images/BGs/bg_kabah_kejauhan.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/BGs/bg_kabah_kejauhan.jpg
+
+#begin Images/BGs/bg_pasukan_gajah.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/BGs/bg_pasukan_gajah.jpg
+
+#begin Images/BGs/bg_game.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/BGs/bg_game.jpg
+
+#begin Images/Sprites/spr_little_kid.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_little_kid.png
+
+#begin Images/Sprites/spr_hudhud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_hudhud.png
+
+#begin Images/Sprites/spr_buku_tua.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_buku_tua.png
+
+#begin Images/Sprites/spr_ababil.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_ababil.png
+
+#begin Images/Sprites/spr_bird_anim.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_bird_anim.png
+
+#begin Images/Sprites/spr_elephant_anim.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_elephant_anim.png
+
+#begin Audio/library/al-fil.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/build:Audio/library/al-fil.ogg
+
+#begin Images/Sprites/spr_kabah.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/spr_kabah.png
