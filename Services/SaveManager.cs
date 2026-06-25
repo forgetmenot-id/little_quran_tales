@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using LittleQuranTales.Models;
 
 namespace LittleQuranTales.Services;
@@ -36,12 +37,23 @@ public class SaveManager
 
     public void Save()
     {
-        try
+        var snapshot = new SaveData
         {
-            var json = JsonSerializer.Serialize(Data, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_savePath, json);
-        }
-        catch { }
+            BgmVolume = Data.BgmVolume,
+            SfxVolume = Data.SfxVolume,
+            Language = Data.Language,
+            CompletedChapters = new System.Collections.Generic.List<string>(Data.CompletedChapters),
+            MiniGameScores = new System.Collections.Generic.Dictionary<string, int>(Data.MiniGameScores)
+        };
+        Task.Run(() =>
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(snapshot, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_savePath, json);
+            }
+            catch { }
+        });
     }
 
     public void MarkChapterCompleted(string chapterId)

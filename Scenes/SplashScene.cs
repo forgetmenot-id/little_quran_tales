@@ -1,3 +1,4 @@
+using LittleQuranTales.Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -68,9 +69,9 @@ public class SplashScene : IScene
                 if (_timer >= FadeOutDuration && !_transitioning)
                 {
                     _transitioning = true;
-                    var loading = (LoadingScene)_game.SceneManager.GetScene("loading");
-                    loading.SetTarget("menu");
-                    _game.SceneManager.SwitchTo("loading");
+                    var loading = (LoadingScene)_game.SceneManager.GetScene(SceneId.Loading);
+                    loading.SetTarget(SceneId.Menu);
+                    _game.SceneManager.SwitchTo(SceneId.Loading);
                 }
                 break;
         }

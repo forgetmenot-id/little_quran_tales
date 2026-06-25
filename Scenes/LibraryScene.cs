@@ -51,7 +51,7 @@ public class LibraryScene : IScene
 
     public void Load()
     {
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _bg = _game.Content.Load<Texture2D>("Images/UI/menu_bg");
         _iconHome = _game.Content.Load<Texture2D>("Images/UI/icon_home");
         _panelDialog = _game.Content.Load<Texture2D>("Images/UI/panel_dialog");
@@ -106,8 +106,8 @@ public class LibraryScene : IScene
                 {
                     ExitReading();
                     Audio.PlaySfx(_sfxClick);
-                    _inputCooldown = 0.3f;
-                    _game.SceneManager.SwitchTo("menu");
+                    _inputCooldown = GameConfig.ClickCooldown;
+                    _game.SceneManager.SwitchTo(SceneId.Menu);
                     return;
                 }
 
@@ -115,7 +115,7 @@ public class LibraryScene : IScene
                 if (playBtn.Contains(mp) && _murottal != null)
                 {
                     Audio.PlaySfx(_sfxClick);
-                    _inputCooldown = 0.3f;
+                    _inputCooldown = GameConfig.ClickCooldown;
                     TogglePlayback();
                     return;
                 }
@@ -141,8 +141,8 @@ public class LibraryScene : IScene
             if (_hoverBack)
             {
                 Audio.PlaySfx(_sfxClick);
-                _inputCooldown = 0.3f;
-                _game.SceneManager.SwitchTo("menu");
+                _inputCooldown = GameConfig.ClickCooldown;
+                _game.SceneManager.SwitchTo(SceneId.Menu);
                 return;
             }
 
@@ -161,7 +161,7 @@ public class LibraryScene : IScene
                         _prevScroll = Mouse.GetState().ScrollWheelValue;
                         _playTimer = 0;
                         _isPlaying = false;
-                        _inputCooldown = 0.3f;
+                        _inputCooldown = GameConfig.ClickCooldown;
                     }
                 }
                 else
@@ -178,7 +178,7 @@ public class LibraryScene : IScene
                 {
                     Audio.PlaySfx(_sfxClick);
                     _selectedIndex = i;
-                    _inputCooldown = 0.3f;
+                    _inputCooldown = GameConfig.ClickCooldown;
                     break;
                 }
             }
@@ -187,12 +187,12 @@ public class LibraryScene : IScene
         var kb = Keyboard.GetState();
         if ((kb.IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) && _inputCooldown <= 0)
         {
-            if (_selectedIndex >= 0) { _selectedIndex = -1; _inputCooldown = 0.2f; }
+            if (_selectedIndex >= 0) { _selectedIndex = -1; _inputCooldown = GameConfig.InputDelay; }
             else
             {
                 Audio.PlaySfx(_sfxClick);
-                _inputCooldown = 0.3f;
-                _game.SceneManager.SwitchTo("menu");
+                _inputCooldown = GameConfig.ClickCooldown;
+                _game.SceneManager.SwitchTo(SceneId.Menu);
             }
         }
     }

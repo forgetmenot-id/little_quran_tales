@@ -1,4 +1,5 @@
 using System;
+using LittleQuranTales.Data;
 using LittleQuranTales.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -44,8 +45,8 @@ public class SettingsScene : IScene
 
     public void Load()
     {
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
-        _settingsFont = _game.Content.Load<SpriteFont>("Fonts/SettingsFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
+        _settingsFont = _game.Content.Load<SpriteFont>(FontPath.SettingsFont);
         _bg = _game.Content.Load<Texture2D>("Images/UI/menu_bg");
         _iconHome = _game.Content.Load<Texture2D>("Images/UI/icon_home");
         _settingBorder = _game.Content.Load<Texture2D>("Images/UI/setting_border");
@@ -125,8 +126,8 @@ public class SettingsScene : IScene
             if (_hoverBack)
             {
                 _game.Audio.PlaySfx(_sfxClick);
-                _inputCooldown = 0.3f;
-                _game.SceneManager.SwitchTo("menu");
+                _inputCooldown = GameConfig.ClickCooldown;
+                _game.SceneManager.SwitchTo(SceneId.Menu);
                 return;
             }
 
@@ -134,13 +135,13 @@ public class SettingsScene : IScene
             {
                 _game.Audio.PlaySfx(_sfxClick);
                 SetLanguage("id");
-                _inputCooldown = 0.3f;
+                _inputCooldown = GameConfig.ClickCooldown;
             }
             else if (_hoverLangEn)
             {
                 _game.Audio.PlaySfx(_sfxClick);
                 SetLanguage("en");
-                _inputCooldown = 0.3f;
+                _inputCooldown = GameConfig.ClickCooldown;
             }
         }
 
@@ -148,8 +149,8 @@ public class SettingsScene : IScene
         if ((kb.IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) && _inputCooldown <= 0)
         {
             _game.Audio.PlaySfx(_sfxClick);
-            _inputCooldown = 0.3f;
-            _game.SceneManager.SwitchTo("menu");
+            _inputCooldown = GameConfig.ClickCooldown;
+            _game.SceneManager.SwitchTo(SceneId.Menu);
         }
     }
 

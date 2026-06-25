@@ -26,19 +26,19 @@
 #begin Images/UI/Splash.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/Splash.png
 
 #begin Images/UI/menu_bg.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/menu_bg.png
 
 #begin Images/UI/menu_logo.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/menu_logo.png
 
 #begin Images/UI/icon_story.png
@@ -68,37 +68,37 @@
 #begin Images/UI/hover_button.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/hover_button.png
 
 #begin Images/UI/panel_chapter.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/panel_chapter.png
 
 #begin Images/UI/panel_dialog.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/panel_dialog.png
 
 #begin Images/UI/setting_border.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/setting_border.png
 
 #begin Images/UI/LoadingScreen.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/LoadingScreen.jpg
 
 #begin Images/UI/icon_home.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/icon_home.png
 
 #begin Audio/BGM/bgm_menu.oga
@@ -139,73 +139,73 @@
 #begin Images/BGs/bg_langit_kiamat.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/BGs/bg_langit_kiamat.jpg
 
 #begin Images/BGs/bg_loteng.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/BGs/bg_loteng.jpg
 
 #begin Images/BGs/bg_langit_gurun.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/BGs/bg_langit_gurun.jpg
 
 #begin Images/BGs/bg_kabah_kejauhan.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/BGs/bg_kabah_kejauhan.jpg
 
 #begin Images/BGs/bg_pasukan_gajah.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/BGs/bg_pasukan_gajah.jpg
 
 #begin Images/BGs/bg_game.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/BGs/bg_game.jpg
 
 #begin Images/Sprites/spr_little_kid.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_little_kid.png
 
 #begin Images/Sprites/spr_hudhud.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_hudhud.png
 
 #begin Images/Sprites/spr_buku_tua.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_buku_tua.png
 
 #begin Images/Sprites/spr_ababil.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_ababil.png
 
 #begin Images/Sprites/spr_bird_anim.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_bird_anim.png
 
 #begin Images/Sprites/spr_elephant_anim.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_elephant_anim.png
 
 #begin Audio/library/al-fil.ogg
@@ -216,5 +216,5 @@
 #begin Images/Sprites/spr_kabah.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_kabah.png

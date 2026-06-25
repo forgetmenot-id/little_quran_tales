@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LittleQuranTales.Data;
 using LittleQuranTales.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -106,7 +107,7 @@ public class MiniGameScene : IScene
 
     public void Load()
     {
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _sfxClick = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_click");
         _sfxDrop = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_stone_drop");
         _sfxHit = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_stone_hit");
@@ -224,10 +225,10 @@ public class MiniGameScene : IScene
         {
             Audio.PlaySfx(_sfxClick);
             Audio.StopBgm();
-            _inputCooldown = 0.3f;
+            _inputCooldown = GameConfig.ClickCooldown;
             var key = $"ababil_defense_{Difficulty}";
             Save.SetHighScore(key, _score);
-            _game.SceneManager.SwitchTo("menu");
+            _game.SceneManager.SwitchTo(SceneId.Menu);
             return;
         }
 
@@ -249,7 +250,7 @@ public class MiniGameScene : IScene
                     {
                         Audio.PlaySfx(_sfxClick);
                         Audio.StopBgm();
-                        _game.SceneManager.SwitchTo("menu");
+                        _game.SceneManager.SwitchTo(SceneId.Menu);
                         return;
                     }
                 }
@@ -307,8 +308,8 @@ public class MiniGameScene : IScene
             else if (_victoryPhase == 3)
             {
                 Save.MarkChapterCompleted("al-fil");
-                ((DialogueScene)_game.SceneManager.GetScene("dialogue")).LoadChapterFile("Data/chapters/ending.json");
-                _game.SceneManager.SwitchTo("dialogue");
+                ((DialogueScene)_game.SceneManager.GetScene(SceneId.Dialogue)).LoadChapterFile(ChapterPath.Ending);
+                _game.SceneManager.SwitchTo(SceneId.Dialogue);
             }
 
             return;
@@ -345,13 +346,15 @@ public class MiniGameScene : IScene
         var spacePressThisFrame = spacePressed && !_prevSpace;
         var spaceReleaseThisFrame = !spacePressed && _prevSpace;
 
+        if (pressThisFrame)
+            _touchStartPos = new Vector2(touch.Position.X, touch.Position.Y);
+
         var chargeReleased = false;
 
         if ((pressThisFrame || spacePressThisFrame) && _dropCooldown <= 0 && !_isCharging)
         {
             _isCharging = true;
             _chargeTime = 0;
-            _touchStartPos = new Vector2(touch.Position.X, touch.Position.Y);
         }
 
         if (_isCharging && (pressing || spacePressed))
@@ -1007,6 +1010,8 @@ public class MiniGameScene : IScene
     {
         Audio.StopBgm();
         _circleTex?.Dispose();
+        _circleTex = null;
         _stoneGradTex?.Dispose();
+        _stoneGradTex = null;
     }
 }

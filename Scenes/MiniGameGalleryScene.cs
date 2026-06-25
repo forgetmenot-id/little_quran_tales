@@ -1,4 +1,5 @@
 using System;
+using LittleQuranTales.Data;
 using LittleQuranTales.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -34,7 +35,7 @@ public class MiniGameGalleryScene : IScene
     public void Load()
     {
         _unlocked = Save.IsChapterCompleted("al-fil");
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _bg = _game.Content.Load<Texture2D>("Images/UI/menu_bg");
         _iconHome = _game.Content.Load<Texture2D>("Images/UI/icon_home");
         _panelDialog = _game.Content.Load<Texture2D>("Images/UI/panel_dialog");
@@ -68,28 +69,28 @@ public class MiniGameGalleryScene : IScene
             if (_hoverBack)
             {
                 _game.Audio.PlaySfx(_sfxClick);
-                _inputCooldown = 0.3f;
-                _game.SceneManager.SwitchTo("menu");
+                _inputCooldown = GameConfig.ClickCooldown;
+                _game.SceneManager.SwitchTo(SceneId.Menu);
                 return;
             }
 
             if (_hoverNormal)
             {
                 _game.Audio.PlaySfx(_sfxClick);
-                _inputCooldown = 0.3f;
+                _inputCooldown = GameConfig.ClickCooldown;
                 if (_unlocked)
-                    _game.SceneManager.SwitchTo("minigame");
+                    _game.SceneManager.SwitchTo(SceneId.Minigame);
                 return;
             }
 
             if (_hoverEndless)
             {
                 _game.Audio.PlaySfx(_sfxClick);
-                _inputCooldown = 0.3f;
+                _inputCooldown = GameConfig.ClickCooldown;
                 if (_unlocked)
                 {
-                    ((MiniGameScene)_game.SceneManager.GetScene("minigame")).Difficulty = "endless";
-                    _game.SceneManager.SwitchTo("minigame");
+                    ((MiniGameScene)_game.SceneManager.GetScene(SceneId.Minigame)).Difficulty = "endless";
+                    _game.SceneManager.SwitchTo(SceneId.Minigame);
                 }
             }
         }
@@ -98,8 +99,8 @@ public class MiniGameGalleryScene : IScene
         if ((kb.IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) && _inputCooldown <= 0)
         {
             _game.Audio.PlaySfx(_sfxClick);
-            _inputCooldown = 0.3f;
-            _game.SceneManager.SwitchTo("menu");
+            _inputCooldown = GameConfig.ClickCooldown;
+            _game.SceneManager.SwitchTo(SceneId.Menu);
         }
     }
 

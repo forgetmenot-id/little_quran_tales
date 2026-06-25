@@ -27,6 +27,17 @@ public class SceneManager
         _current.Load();
     }
 
+    public void SwitchTo(string id, bool skipLoad)
+    {
+        if (!_scenes.ContainsKey(id)) return;
+
+        _current?.Unload();
+        _current = _scenes[id];
+        _currentId = id;
+        if (!skipLoad)
+            _current.Load();
+    }
+
     public void Update(float deltaTime)
     {
         _current?.Update(deltaTime);

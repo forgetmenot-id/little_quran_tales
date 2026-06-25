@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using LittleQuranTales.Data;
 using LittleQuranTales.Models;
 using LittleQuranTales.Services;
 using Microsoft.Xna.Framework;
@@ -101,13 +102,13 @@ public class DialogueScene : IScene
 
     public void Load()
     {
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _sfxClick = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_click");
         _iconHome = _game.Content.Load<Texture2D>("Images/UI/icon_home");
         _panelDialog = _game.Content.Load<Texture2D>("Images/UI/panel_dialog");
         _totalTime = 0;
         if (string.IsNullOrEmpty(_currentChapterFile))
-            _currentChapterFile = "Data/chapters/prolog.json";
+            _currentChapterFile = ChapterPath.Prolog;
         LoadChapter();
     }
 
@@ -126,6 +127,8 @@ public class DialogueScene : IScene
         using var reader = new StreamReader(stream);
         var json = reader.ReadToEnd();
         _chapter = JsonSerializer.Deserialize<ChapterData>(json);
+        if (_chapter?.Scenes == null || _chapter.Scenes.Count == 0)
+            throw new InvalidOperationException($"Chapter file missing or invalid: {_currentChapterFile}");
         _currentIndex = 0;
         StartText();
     }
@@ -172,9 +175,9 @@ public class DialogueScene : IScene
         {
             Audio.PlaySfx(_sfxClick);
             Audio.StopBgm();
-            _inputCooldown = 0.3f;
+            _inputCooldown = GameConfig.ClickCooldown;
             _currentChapterFile = null;
-            _game.SceneManager.SwitchTo("menu");
+            _game.SceneManager.SwitchTo(SceneId.Menu);
             return;
         }
 
@@ -182,9 +185,9 @@ public class DialogueScene : IScene
         {
             Audio.PlaySfx(_sfxClick);
             Audio.StopBgm();
-            _inputCooldown = 0.3f;
+            _inputCooldown = GameConfig.ClickCooldown;
             _currentChapterFile = null;
-            _game.SceneManager.SwitchTo("menu");
+            _game.SceneManager.SwitchTo(SceneId.Menu);
             return;
         }
 
@@ -281,10 +284,10 @@ public class DialogueScene : IScene
 
             var n = _chapter.NextChapter;
             if (!string.IsNullOrEmpty(n) && n != "minigame")
-            { _currentChapterFile = $"Data/chapters/{n}.json"; LoadChapter(); return; }
+            { _currentChapterFile = $"{ChapterPath.Directory}{n}.json"; LoadChapter(); return; }
             if (n == "minigame")
-            { Audio.StopBgm(); _game.SceneManager.SwitchTo("minigame"); return; }
-            _currentChapterFile = null; Audio.StopBgm(); _game.SceneManager.SwitchTo("menu");
+            { Audio.StopBgm(); _game.SceneManager.SwitchTo(SceneId.Minigame); return; }
+            _currentChapterFile = null; Audio.StopBgm(); _game.SceneManager.SwitchTo(SceneId.Menu);
         }
         else
         { _curFx = null; _shX = 0; _shY = 0; _waitClick = false; StartText(); }
@@ -504,5 +507,9 @@ public class DialogueScene : IScene
         return _gt;
     }
 
-    public void Unload() { Audio.StopBgm(); }
+    public void Unload()
+    {
+        Audio.StopBgm();
+        if (_gt != null) { _gt.Dispose(); _gt = null; }
+    }
 }

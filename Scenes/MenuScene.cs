@@ -1,3 +1,4 @@
+using LittleQuranTales.Data;
 using LittleQuranTales.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -31,8 +32,8 @@ public class MenuScene : IScene
     private readonly Color _darkBrown = new(62, 39, 35);
     private readonly Color _shadowColor = new(30, 20, 10, 100);
 
-    private readonly string[] _btnKeys = { "main_story", "mini_games", "library", "settings" };
-    private readonly string[] _btnScenes = { "dialogue", "minigame_gallery", "library", "settings" };
+    private readonly string[] _btnKeys = { SceneKey.MainStory, SceneKey.MiniGames, SceneKey.Library, SceneKey.Settings };
+    private readonly string[] _btnScenes = { SceneId.Dialogue, SceneId.MinigameGallery, SceneId.Library, SceneId.Settings };
 
     private const float MenuTextScale = 1.3f;
     private Rectangle _chapterRect;
@@ -48,7 +49,7 @@ public class MenuScene : IScene
     {
         if (_loaded) return;
         _loaded = true;
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _bg = _game.Content.Load<Texture2D>("Images/UI/menu_bg");
         _logo = _game.Content.Load<Texture2D>("Images/UI/menu_logo");
         _panelChapter = _game.Content.Load<Texture2D>("Images/UI/panel_chapter");
@@ -133,7 +134,7 @@ public class MenuScene : IScene
             var target = _btnScenes[_hoveredIndex];
             if (!string.IsNullOrEmpty(target))
                 _game.SceneManager.SwitchTo(target);
-            _clickCooldown = 0.3f;
+            _clickCooldown = GameConfig.ClickCooldown;
         }
     }
 
@@ -192,7 +193,11 @@ public class MenuScene : IScene
         batch.End();
     }
 
-    public void Unload() { }
+    public void Unload()
+    {
+        _gradientOverlay?.Dispose();
+        _gradientOverlay = null;
+    }
 
     private void DrawText(SpriteBatch batch, string text, Vector2 pos, Color color, float scale = 1f)
     {

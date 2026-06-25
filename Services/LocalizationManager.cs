@@ -19,6 +19,8 @@ public class LocalizationManager
         using var reader = new StreamReader(stream);
         var json = reader.ReadToEnd();
         _strings = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
+        if (_strings == null)
+            _strings = new Dictionary<string, Dictionary<string, string>>();
     }
 
     public void SetLanguage(string lang)

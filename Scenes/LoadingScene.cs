@@ -1,3 +1,4 @@
+using LittleQuranTales.Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +23,7 @@ public class LoadingScene : IScene
 
     public void Load()
     {
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _bg = _game.Content.Load<Texture2D>("Images/UI/LoadingScreen");
         _logo = _game.Content.Load<Texture2D>("Images/UI/menu_logo");
         _timer = 0;
@@ -41,7 +42,7 @@ public class LoadingScene : IScene
         }
 
         if (_timer >= TotalTime)
-            _game.SceneManager.SwitchTo(_targetId);
+            _game.SceneManager.SwitchTo(_targetId, skipLoad: true);
     }
 
     public void Draw()

@@ -14,6 +14,15 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidManifest>AndroidManifest.xml</AndroidManifest>
     <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidEnableProguard>true</AndroidEnableProguard>
+    <AndroidUseDefaultProguardFile>true</AndroidUseDefaultProguardFile>
+    <StripSymbols>true</StripSymbols>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -45,7 +54,7 @@
     <Compile Remove="MainActivity.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
-    <AndroidAsset Include="Content\**\*.*" />
+    <AndroidAsset Include="Content\bin\Android\Content\**\*.*" LogicalName="Content/%(RecursiveDir)%(Filename)%(Extension)" />
     <AndroidAsset Include="Data\**\*.json" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">

@@ -1,4 +1,5 @@
 ﻿using System;
+using LittleQuranTales.Data;
 using LittleQuranTales.Scenes;
 using LittleQuranTales.Services;
 using Microsoft.Xna.Framework;
@@ -15,8 +16,8 @@ public class Game1 : Game
     private SceneManager _sceneManager;
     private RenderTarget2D _virtualTarget;
 
-    public int Width => 1280;
-    public int Height => 720;
+    public int Width => GameConfig.VirtualWidth;
+    public int Height => GameConfig.VirtualHeight;
     public SpriteBatch SpriteBatch => _spriteBatch;
     public SceneManager SceneManager => _sceneManager;
     public Texture2D WhitePixel { get; private set; }
@@ -84,8 +85,8 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else
-        _graphics.PreferredBackBufferWidth = 1280;
-        _graphics.PreferredBackBufferHeight = 720;
+        _graphics.PreferredBackBufferWidth = GameConfig.VirtualWidth;
+        _graphics.PreferredBackBufferHeight = GameConfig.VirtualHeight;
 #endif
         _graphics.ApplyChanges();
 
@@ -99,17 +100,17 @@ public class Game1 : Game
         Audio.SfxVolume = Save.Data.SfxVolume;
 
         _sceneManager = new SceneManager();
-        _sceneManager.Register("splash", new SplashScene(this));
-        _sceneManager.Register("menu", new MenuScene(this));
-        _sceneManager.Register("title", new TitleScene(this));
-        _sceneManager.Register("dialogue", new DialogueScene(this));
-        _sceneManager.Register("minigame", new MiniGameScene(this));
-        _sceneManager.Register("settings", new SettingsScene(this));
-        _sceneManager.Register("library", new LibraryScene(this));
-        _sceneManager.Register("minigame_gallery", new MiniGameGalleryScene(this));
-        _sceneManager.Register("loading", new LoadingScene(this));
+        _sceneManager.Register(SceneId.Splash, new SplashScene(this));
+        _sceneManager.Register(SceneId.Menu, new MenuScene(this));
+        _sceneManager.Register(SceneId.Title, new TitleScene(this));
+        _sceneManager.Register(SceneId.Dialogue, new DialogueScene(this));
+        _sceneManager.Register(SceneId.Minigame, new MiniGameScene(this));
+        _sceneManager.Register(SceneId.Settings, new SettingsScene(this));
+        _sceneManager.Register(SceneId.Library, new LibraryScene(this));
+        _sceneManager.Register(SceneId.MinigameGallery, new MiniGameGalleryScene(this));
+        _sceneManager.Register(SceneId.Loading, new LoadingScene(this));
 
-        _sceneManager.SwitchTo("splash");
+        _sceneManager.SwitchTo(SceneId.Splash);
 
         base.Initialize();
     }
@@ -119,7 +120,7 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         WhitePixel = new Texture2D(GraphicsDevice, 1, 1);
         WhitePixel.SetData(new[] { Color.White });
-        _virtualTarget = new RenderTarget2D(GraphicsDevice, 1280, 720);
+        _virtualTarget = new RenderTarget2D(GraphicsDevice, GameConfig.VirtualWidth, GameConfig.VirtualHeight);
     }
 
     protected override void Update(GameTime gameTime)

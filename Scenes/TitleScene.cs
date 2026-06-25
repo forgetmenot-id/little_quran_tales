@@ -1,3 +1,4 @@
+using LittleQuranTales.Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,7 +18,7 @@ public class TitleScene : IScene
 
     public void Load()
     {
-        _font = _game.Content.Load<SpriteFont>("Fonts/GameFont");
+        _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
     }
 
     public void Update(float deltaTime)
@@ -27,7 +28,7 @@ public class TitleScene : IScene
         if (Keyboard.GetState().IsKeyDown(Keys.Enter) ||
             _game.GetTouch().IsDown)
         {
-            _game.SceneManager.SwitchTo("dialogue");
+            _game.SceneManager.SwitchTo(SceneId.Dialogue);
         }
     }
 
