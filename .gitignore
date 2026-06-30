@@ -47,6 +47,7 @@ tmp_apk/
 *.apk
 *.aab
 local.properties
+littlequran.keystore
 
 # OS
 Thumbs.db
@@ -56,3 +57,12 @@ Thumbs.db
 *.nupkg
 *.nupkg.metadata
 *.snupkg
+
+# Temp / Debug files
+*.log
+tmp_*.txt
+tmp_*.diff
+
+# Legacy tools
+Tools/
+SkiaTest/

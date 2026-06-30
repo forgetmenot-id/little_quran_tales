@@ -23,6 +23,8 @@ public class MenuScene : IScene
     private Rectangle[] _btnRects;
     private Rectangle[] _hoverRects;
     private int _hoveredIndex = -1;
+    private int _clickedIndex = -1;
+    private bool _clickPending;
     private float _clickCooldown;
 
     private Song _bgm;
@@ -31,12 +33,31 @@ public class MenuScene : IScene
     private readonly Color _cream = new(234, 230, 223);
     private readonly Color _darkBrown = new(62, 39, 35);
     private readonly Color _shadowColor = new(30, 20, 10, 100);
+    private readonly Color _gold = new(212, 175, 55);
 
     private readonly string[] _btnKeys = { SceneKey.MainStory, SceneKey.MiniGames, SceneKey.Library, SceneKey.Settings };
-    private readonly string[] _btnScenes = { SceneId.Dialogue, SceneId.MinigameGallery, SceneId.Library, SceneId.Settings };
+    private readonly string[] _btnScenes = { SceneId.StorySelection, SceneId.MinigameGallery, SceneId.Library, SceneId.Settings };
 
     private const float MenuTextScale = 1.3f;
     private Rectangle _chapterRect;
+
+    private SaveManager Save => _game.Save;
+
+    private static readonly (string id, string langKey)[] _chapterOrder = {
+        ("prolog",  "prolog_title"),
+        ("al-fil",  "chapter_1_title"),
+        ("al-alaq", "chapter_2_title"),
+    };
+
+    private string GetNextChapterKey()
+    {
+        foreach (var (id, key) in _chapterOrder)
+        {
+            if (!Save.Data.CompletedChapters.Contains(id))
+                return key;
+        }
+        return "chapter_3_title";
+    }
 
     public MenuScene(Game1 game)
     {
@@ -47,8 +68,10 @@ public class MenuScene : IScene
 
     public void Load()
     {
-        if (_loaded) return;
+        LogHelper.Trace($"MenuScene.Load loaded={_loaded}");
+        if (_loaded) { LogHelper.Trace("MenuScene.Load early return"); return; }
         _loaded = true;
+        LogHelper.Trace("MenuScene.Load loading assets");
         _font = _game.Content.Load<SpriteFont>(FontPath.GameFont);
         _bg = _game.Content.Load<Texture2D>("Images/UI/menu_bg");
         _logo = _game.Content.Load<Texture2D>("Images/UI/menu_logo");
@@ -86,10 +109,10 @@ public class MenuScene : IScene
         _gradientOverlay = new Texture2D(_game.GraphicsDevice, 256, 1);
         var gradData = new Color[256];
         for (int i = 0; i < 256; i++)
-            gradData[i] = new Color(0, 0, 0, (int)(64 * (1f - i / 255f)));
+            gradData[i] = new Color(0, 0, 0, (int)(200 * (1f - i / 255f)));
         _gradientOverlay.SetData(gradData);
 
-        _chapterRect = new Rectangle(_game.Width - 270, _game.Height - 130, 240, 60);
+        _chapterRect = new Rectangle(_game.Width - 350, _game.Height - 130, 320, 65);
 
         try
         {
@@ -104,11 +127,23 @@ public class MenuScene : IScene
             _sfxClick = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_click");
         }
         catch { }
+
+        LogHelper.Trace("MenuScene.Load done");
     }
 
     public void Update(float deltaTime)
     {
         _clickCooldown = MathHelper.Max(0, _clickCooldown - deltaTime);
+
+        if (_clickPending)
+        {
+            _clickPending = false;
+            _game.Audio.PlaySfx(_sfxClick);
+            var target = _btnScenes[_clickedIndex];
+            if (!string.IsNullOrEmpty(target))
+                _game.SceneManager.SwitchTo(target);
+            return;
+        }
 
         if (_bgm != null && MediaPlayer.State != MediaState.Playing)
         {
@@ -130,10 +165,8 @@ public class MenuScene : IScene
 
         if (touch.IsDown && _hoveredIndex >= 0)
         {
-            _game.Audio.PlaySfx(_sfxClick);
-            var target = _btnScenes[_hoveredIndex];
-            if (!string.IsNullOrEmpty(target))
-                _game.SceneManager.SwitchTo(target);
+            _clickedIndex = _hoveredIndex;
+            _clickPending = true;
             _clickCooldown = GameConfig.ClickCooldown;
         }
     }
@@ -142,59 +175,68 @@ public class MenuScene : IScene
     {
         var batch = _game.SpriteBatch;
         batch.Begin();
-
-        var loc = _game.Loc;
-        batch.Draw(_bg, new Rectangle(0, 0, _game.Width, _game.Height), Color.White);
-
-        if (_gradientOverlay != null)
-            batch.Draw(_gradientOverlay, new Rectangle(0, 0, _game.Width, _game.Height), Color.White);
-
-        var logoW = _logo?.Width ?? 400;
-        var logoH = _logo?.Height ?? 80;
-        var logoScale = 1f;
-        if (logoW > 500) logoScale = 500f / logoW;
-        batch.Draw(_logo,
-            new Vector2(30, 30),
-            null, Color.White, 0, Vector2.Zero, logoScale, SpriteEffects.None, 0);
-
-        for (int i = 0; i < 4; i++)
+        try
         {
-            var rect = _btnRects[i];
-            var isHovered = _hoveredIndex == i;
+            var loc = _game.Loc;
+            batch.Draw(_bg, new Rectangle(0, 0, _game.Width, _game.Height), Color.White);
 
-            if (_hoverBtn != null && isHovered)
+            if (_gradientOverlay != null)
+                batch.Draw(_gradientOverlay, new Rectangle(0, 0, _game.Width, _game.Height), Color.White);
+
+            var logoW = _logo?.Width ?? 400;
+            var logoH = _logo?.Height ?? 80;
+            var logoScale = 1f;
+            if (logoW > 500) logoScale = 500f / logoW;
+            batch.Draw(_logo,
+                new Vector2(30, 30),
+                null, Color.White, 0, Vector2.Zero, logoScale, SpriteEffects.None, 0);
+
+            for (int i = 0; i < 4; i++)
             {
-                var hRect = _hoverRects[i];
-                batch.Draw(_hoverBtn, hRect, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                var rect = _btnRects[i];
+                var isHovered = _hoveredIndex == i;
+                var isClicked = _clickPending && _clickedIndex == i;
+
+                if (_hoverBtn != null && (isHovered || isClicked))
+                {
+                    var hRect = _hoverRects[i];
+                    batch.Draw(_hoverBtn, hRect, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                }
+
+                var iconRect = new Rectangle(rect.X + 4, rect.Y + 10, 36, 36);
+                if (_icons[i] != null)
+                    batch.Draw(_icons[i], iconRect, Color.White);
+
+                var textColor = isHovered ? Color.Black : _cream;
+                var label = loc.Get(_btnKeys[i]);
+                var txtSize = _font.MeasureString(label) * MenuTextScale;
+                var textPos = new Vector2(rect.X + 52, rect.Y + 10 + (36 - txtSize.Y) / 2);
+                DrawText(batch, label, textPos, textColor, MenuTextScale);
             }
 
-            var iconRect = new Rectangle(rect.X + 4, rect.Y + 10, 36, 36);
-            batch.Draw(_icons[i], iconRect, isHovered ? new Color(62, 39, 35) : Color.White);
+            if (_panelChapter != null)
+            {
+                batch.Draw(_panelChapter, _chapterRect, new Color(255, 255, 255, 80));
+            }
 
-            var textColor = isHovered ? _darkBrown : _cream;
-            var textPos = new Vector2(rect.X + 52, rect.Y + 10);
-            DrawText(batch, loc.Get(_btnKeys[i]), textPos, textColor, MenuTextScale);
+            var chapterKey = GetNextChapterKey();
+            var chapterText = loc.Get(chapterKey);
+            var chapterSize = _font.MeasureString(chapterText);
+            DrawText(batch, chapterText,
+                new Vector2(
+                    _chapterRect.X + (_chapterRect.Width - chapterSize.X) / 2,
+                    _chapterRect.Y + (_chapterRect.Height - chapterSize.Y) / 2),
+                Color.Black, 0.8f);
         }
-
-        var chColor = new Color(180, 155, 120, 180);
-        if (_panelChapter != null)
+        finally
         {
-            batch.Draw(_panelChapter, _chapterRect, new Color(255, 255, 255, 80));
+            batch.End();
         }
-
-        var chapterText = loc.Get("chapter");
-        var chapterSize = _font.MeasureString(chapterText);
-        DrawText(batch, chapterText,
-            new Vector2(
-                _chapterRect.X + (_chapterRect.Width - chapterSize.X) / 2,
-                _chapterRect.Y + (_chapterRect.Height - chapterSize.Y) / 2),
-            _darkBrown, 0.8f);
-
-        batch.End();
     }
 
     public void Unload()
     {
+        _loaded = false;
         _gradientOverlay?.Dispose();
         _gradientOverlay = null;
     }

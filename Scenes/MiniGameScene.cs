@@ -17,6 +17,7 @@ public class MiniGameScene : IScene
     private Random _rng = new();
 
     public string Difficulty { get; set; } = "normal";
+    public bool IsStoryMode { get; set; }
     private bool _isEndless => Difficulty == "endless";
 
     private SaveManager Save => _game.Save;
@@ -47,23 +48,24 @@ public class MiniGameScene : IScene
 
     private int _kabahHp = 10, _maxKabahHp = 10;
     private int _score, _totalKills;
-    private int _victoryPhase;
-    private float _phaseTimer;
-    private float _whiteOverA;
+    private bool _scoreSaved;
     private bool _gameOver, _victory;
     private float _gameOverT;
-    private bool _murottalPlaying;
+
 
     private float _elapsed;
     private float _inputCooldown;
 
     private List<Particle> _particles = new();
     private Texture2D _bgGame, _panelChapter, _sprKabah, _iconHome;
+    private Texture2D _panelGame1, _panelGame2, _panelCard;
 
     private Rectangle _backRect;
     private bool _hoverBack;
+    private bool _showExitConfirm;
+    private Rectangle _confirmYesRect, _confirmNoRect;
     private SoundEffect _sfxClick, _sfxDrop, _sfxHit;
-    private Song _bgm, _murottal;
+    private Song _bgm;
 
     private const float Gravity = 500f;
     private const int GroundH = 50;
@@ -112,14 +114,16 @@ public class MiniGameScene : IScene
         _sfxDrop = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_stone_drop");
         _sfxHit = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_stone_hit");
         _bgm = _game.Content.Load<Song>("Audio/BGM/bgm_minigame");
-        try { _murottal = _game.Content.Load<Song>("Audio/library/al-fil"); }
-        catch { _murottal = null; }
+
         _birdTex = _game.Content.Load<Texture2D>("Images/Sprites/spr_bird_anim");
         _elephantTex = _game.Content.Load<Texture2D>("Images/Sprites/spr_elephant_anim");
         _bgGame = _game.Content.Load<Texture2D>("Images/BGs/bg_game");
         _panelChapter = _game.Content.Load<Texture2D>("Images/UI/panel_chapter");
         _sprKabah = _game.Content.Load<Texture2D>("Images/Sprites/spr_kabah");
         _iconHome = _game.Content.Load<Texture2D>("Images/UI/icon_home");
+        _panelGame1 = _game.Content.Load<Texture2D>("Images/UI/panel_game1");
+        _panelGame2 = _game.Content.Load<Texture2D>("Images/UI/panel_game2");
+        _panelCard = _game.Content.Load<Texture2D>("Images/UI/panel_card");
 
         _birdFw = _birdTex.Width / _birdCols;
         _birdFh = _birdTex.Height / (_birdFrames / _birdCols);
@@ -196,10 +200,7 @@ public class MiniGameScene : IScene
         _gameOver = false;
         _victory = false;
         _gameOverT = 0;
-        _victoryPhase = 0;
-        _phaseTimer = 0;
-        _whiteOverA = 0;
-        _murottalPlaying = false;
+        _scoreSaved = false;
         _elapsed = 0;
         _inputCooldown = 0;
         _ammo = 0; _maxAmmo = 10; _combo = 0; _turbulence = 0;
@@ -210,6 +211,11 @@ public class MiniGameScene : IScene
         _wasPressing = false;
         _prevSpace = false;
         _touchStartPos = Vector2.Zero;
+
+        var cw = 340; var ch = 140; var cx2 = (_game.Width - cw) / 2; var cy2 = (_game.Height - ch) / 2;
+        _confirmYesRect = new Rectangle(cx2 + 30, cy2 + ch - 52, 120, 36);
+        _confirmNoRect  = new Rectangle(cx2 + cw - 150, cy2 + ch - 52, 120, 36);
+        _showExitConfirm = false;
     }
 
     public void Update(float dt)
@@ -219,16 +225,40 @@ public class MiniGameScene : IScene
 
         var kb = Keyboard.GetState();
         var touch = _game.GetTouch();
-        _hoverBack = _backRect.Contains(touch.Position);
+        var mp = touch.Position;
+        _hoverBack = _backRect.Contains(mp);
+
+        if (_showExitConfirm)
+        {
+            if (touch.IsDown)
+            {
+                if (_confirmYesRect.Contains(mp))
+                {
+                    _showExitConfirm = false;
+                    Audio.PlaySfx(_sfxClick);
+                    Audio.StopBgm();
+                    _inputCooldown = GameConfig.ClickCooldown;
+                    var key = $"ababil_defense_{Difficulty}";
+                    Save.SetHighScore(key, _score);
+                    _game.SceneManager.SwitchTo(SceneId.Menu);
+                    return;
+                }
+                if (_confirmNoRect.Contains(mp))
+                {
+                    Audio.PlaySfx(_sfxClick);
+                    _showExitConfirm = false;
+                    _inputCooldown = GameConfig.ClickCooldown;
+                    return;
+                }
+            }
+            return;
+        }
 
         if (kb.IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || (touch.IsDown && _hoverBack && _inputCooldown <= 0))
         {
             Audio.PlaySfx(_sfxClick);
-            Audio.StopBgm();
             _inputCooldown = GameConfig.ClickCooldown;
-            var key = $"ababil_defense_{Difficulty}";
-            Save.SetHighScore(key, _score);
-            _game.SceneManager.SwitchTo(SceneId.Menu);
+            _showExitConfirm = true;
             return;
         }
 
@@ -236,43 +266,43 @@ public class MiniGameScene : IScene
         {
             _gameOverT += dt;
 
-            if (_victoryPhase == 0)
+            if (!_scoreSaved)
             {
-                if (_gameOverT < 0.1f)
-                {
-                    var key = $"ababil_defense_{(_isEndless ? "endless" : "normal")}";
-                    Save.SetHighScore(key, _score);
-                }
+                _scoreSaved = true;
+                var key = $"ababil_defense_{(_isEndless ? "endless" : "normal")}";
+                Save.SetHighScore(key, _score);
+            }
 
-                if (_isEndless)
+            if (_isEndless)
+            {
+                if (_gameOverT > 2f && (kb.IsKeyDown(Keys.Space) || _game.GetTouch().IsDown))
                 {
-                    if (_gameOverT > 2f && (kb.IsKeyDown(Keys.Space) || _game.GetTouch().IsDown))
-                    {
-                        Audio.PlaySfx(_sfxClick);
-                        Audio.StopBgm();
-                        _game.SceneManager.SwitchTo(SceneId.Menu);
-                        return;
-                    }
+                    Audio.PlaySfx(_sfxClick);
+                    Audio.StopBgm();
+                    _game.SceneManager.SwitchTo(SceneId.Menu);
+                    return;
                 }
-                else
-                {
-                    if (_victory && !_murottalPlaying && _gameOverT >= 0.5f)
-                    {
-                        _murottalPlaying = true;
-                        if (_murottal != null)
-                        {
-                            Audio.StopBgm();
-                            Audio.PlayBgm(_murottal, false);
-                        }
-                    }
-
+            }
+            else
+            {
                     if (_gameOverT > 2f && (kb.IsKeyDown(Keys.Space) || _game.GetTouch().IsDown))
                     {
                         Audio.PlaySfx(_sfxClick);
                         if (_victory)
                         {
-                            _victoryPhase = 1;
-                            _phaseTimer = 0;
+                            Audio.StopBgm();
+                            Save.MarkChapterCompleted("al-fil");
+                            if (IsStoryMode)
+                            {
+                                var library = (LibraryScene)_game.SceneManager.GetScene(SceneId.Library);
+                                if (library != null) library.VictorySurahNumber = 105;
+                                _game.SceneManager.SwitchTo(SceneId.Library);
+                            }
+                            else
+                            {
+                                _game.SceneManager.SwitchTo(SceneId.MinigameGallery);
+                            }
+                            return;
                         }
                         else
                         {
@@ -280,36 +310,6 @@ public class MiniGameScene : IScene
                             Reset(); _waveTransition = true;
                         }
                     }
-                }
-            }
-            else if (_victoryPhase == 1)
-            {
-                _phaseTimer += dt;
-                _whiteOverA = Math.Min(1f, _phaseTimer / 0.5f);
-                if (_phaseTimer >= 1.2f)
-                {
-                    _victoryPhase = 2;
-                    _phaseTimer = 0;
-                }
-            }
-            else if (_victoryPhase == 2)
-            {
-                _phaseTimer += dt;
-                if (_phaseTimer < 0.5f)
-                    _whiteOverA = Math.Max(0, 1f - _phaseTimer / 0.5f);
-                else
-                    _whiteOverA = 0;
-
-                if (_phaseTimer > 2f && (_murottal == null || MediaPlayer.State == MediaState.Stopped) || _phaseTimer > 120f)
-                {
-                    _victoryPhase = 3;
-                }
-            }
-            else if (_victoryPhase == 3)
-            {
-                Save.MarkChapterCompleted("al-fil");
-                ((DialogueScene)_game.SceneManager.GetScene(SceneId.Dialogue)).LoadChapterFile(ChapterPath.Ending);
-                _game.SceneManager.SwitchTo(SceneId.Dialogue);
             }
 
             return;
@@ -711,11 +711,7 @@ public class MiniGameScene : IScene
             return;
         }
 
-        if (_gameOver && _victoryPhase > 0)
-        {
-            DrawVictoryFx(b);
-        }
-        else
+        if (!_gameOver)
         {
             DrawKabah(b);
             DrawEnemies(b);
@@ -725,32 +721,15 @@ public class MiniGameScene : IScene
             DrawHud(b);
         }
 
-        if (_gameOver && _victoryPhase == 0) DrawGameOver(b);
+        if (_gameOver) DrawGameOver(b);
 
+        if (_showExitConfirm) DrawExitConfirm(b);
         b.End();
     }
 
     private void DrawBg(SpriteBatch b)
     {
         b.Draw(_bgGame, new Rectangle(0, 0, _game.Width, _game.Height), Color.White);
-    }
-
-    private void DrawVictoryFx(SpriteBatch b)
-    {
-        if (_whiteOverA > 0)
-            b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), Color.White * _whiteOverA);
-
-        if (_victoryPhase == 2)
-        {
-            var loc = _game.Loc;
-            var title = loc.Get("listen_title");
-            var sz = _font.MeasureString(title);
-            b.DrawString(_font, title, new Vector2((_game.Width - sz.X) / 2, _game.Height / 2 - 24), Color.Gold);
-            var sub = loc.Get("listen_sub");
-            var subSz = _font.MeasureString(sub);
-            var pulse = 0.6f + (float)Math.Sin(_elapsed * 2) * 0.2f;
-            b.DrawString(_font, sub, new Vector2((_game.Width - subSz.X) / 2, _game.Height / 2 + 16), Color.White * pulse);
-        }
     }
 
     private void DrawKabah(SpriteBatch b)
@@ -882,44 +861,99 @@ public class MiniGameScene : IScene
     private void DrawHud(SpriteBatch b)
     {
         var loc = _game.Loc;
-        var panelH = HudPanelH;
-        b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, panelH), new Color(10, 8, 6, 220));
+        int w = _game.Width;
+        int cx = w / 2;
+        int y = 14;
+        int h = 38;
+        int indW = 170;
+        int modeW = 220;
+        int gap = 8;
+        float fs = 0.75f;
 
-        if (_isEndless)
-            b.DrawString(_font, $"WAVE {_currentWave}", new Vector2(10, panelH / 2 - 8), Color.White);
-        else
-            b.DrawString(_font, loc.Format("wave", _currentWave, _totalWaves), new Vector2(10, panelH / 2 - 8), Color.White);
+        var gold = new Color(212, 175, 55);
+        var darkBrown = new Color(62, 39, 35);
 
-        b.DrawString(_font, loc.Format("score", _score), new Vector2(180, panelH / 2 - 8), Color.Gold);
-        b.DrawString(_font, loc.Format("kill", _totalKills), new Vector2(360, panelH / 2 - 8), Color.LightGray);
+        // Mode panel centered at screen center
+        int modeX = cx - modeW / 2;
+        var rMode = new Rectangle(modeX, y, modeW, h);
+        b.Draw(_panelGame1, rMode, Color.White);
+        var modeStr = _isEndless ? loc.Get("endless_mode") : loc.Get("normal_mode");
+        DrawTextCenteredShadow(b, modeStr, rMode, gold, fs);
 
-        if (_isEndless)
-        {
-            b.DrawString(_font, loc.Get("endless_mode"), new Vector2(540, panelH / 2 - 8), Color.Red);
-        }
+        // Left indicators anchored to mode panel's left edge
+        int skorX = modeX - gap - indW;
+        int waveX = skorX - gap - indW;
 
-        var ammoCol = _ammo <= 3 ? Color.Red : Color.Gold;
-        b.DrawString(_font, loc.Format("stone", _ammo, _maxAmmo), new Vector2(620, panelH / 2 - 8), ammoCol);
+        var rWave = new Rectangle(waveX, y, indW, h);
+        b.Draw(_panelGame2, rWave, Color.White);
+        var waveText = _isEndless ? $"Wave {_currentWave}" : loc.Format("wave", _currentWave, _totalWaves);
+        DrawTextCentered(b, waveText, rWave, darkBrown, fs);
 
+        var rSkor = new Rectangle(skorX, y, indW, h);
+        b.Draw(_panelGame2, rSkor, Color.White);
+        DrawTextCentered(b, loc.Format("score", _score), rSkor, darkBrown, fs);
+
+        // Right indicators anchored to mode panel's right edge
+        int killX = modeX + modeW + gap;
+        int batuX = killX + gap + indW;
+
+        var rKill = new Rectangle(killX, y, indW, h);
+        b.Draw(_panelGame2, rKill, Color.White);
+        DrawTextCentered(b, loc.Format("kill", _totalKills), rKill, darkBrown, fs);
+
+        var rBatu = new Rectangle(batuX, y, indW, h);
+        b.Draw(_panelGame2, rBatu, Color.White);
+        var stoneCol = _ammo <= 3 ? new Color(180, 40, 40) : darkBrown;
+        DrawTextCentered(b, loc.Format("stone", _ammo, _maxAmmo), rBatu, stoneCol, fs);
+
+        // Charge bar below stone panel
         if (_isCharging)
         {
             var pct = _chargeTime / MaxChargeTime;
-            var barW = 50; var barH = 6;
-            var barX = 740; var barY = panelH / 2 - barH / 2;
+            var barW = indW - 12;
+            var barH = 4;
+            var barX = rBatu.X + 6;
+            var barY = rBatu.Bottom + 3;
             b.Draw(_game.WhitePixel, new Rectangle(barX, barY, barW, barH), new Color(40, 30, 20));
             var col = GetChargeColor(pct);
             b.Draw(_game.WhitePixel, new Rectangle(barX, barY, (int)(barW * pct), barH), col);
         }
 
+        // Combo below charge / stone
         if (_combo >= 3)
-            b.DrawString(_font, loc.Format("combo", _combo), new Vector2(820, panelH / 2 - 8), Color.LimeGreen);
+        {
+            var comboY = rBatu.Bottom + (_isCharging ? 10 : 3);
+            var comboRect = new Rectangle(rBatu.X, comboY, indW, 20);
+            DrawTextCentered(b, loc.Format("combo", _combo), comboRect, Color.LimeGreen, fs);
+        }
 
-        var iconSz = 64;
-        var iconX = _game.Width - iconSz - 8;
-        var iconY = (panelH - iconSz) / 2;
+        // Home icon (top-right)
+        var iconSz = 32;
+        var iconX = w - iconSz - 10;
+        var iconY = y + (h - iconSz) / 2;
         _backRect = new Rectangle(iconX, iconY, iconSz, iconSz);
         var iconCol = _hoverBack ? Color.Gold : Color.White * 0.8f;
         b.Draw(_iconHome, _backRect, iconCol);
+    }
+
+    private void DrawTextCentered(SpriteBatch b, string text, Rectangle rect, Color color, float scale = 1f)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+        var sz = _font.MeasureString(text) * scale;
+        var x = rect.X + (rect.Width - sz.X) / 2;
+        var y = rect.Y + (rect.Height - sz.Y) / 2;
+        b.DrawString(_font, text, new Vector2(x, y), color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+    }
+
+    private void DrawTextCenteredShadow(SpriteBatch b, string text, Rectangle rect, Color color, float scale = 1f)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+        var off = 1.5f * scale;
+        var sz = _font.MeasureString(text) * scale;
+        var x = rect.X + (rect.Width - sz.X) / 2;
+        var y = rect.Y + (rect.Height - sz.Y) / 2;
+        b.DrawString(_font, text, new Vector2(x + off, y + off), Color.Black * 0.35f, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+        b.DrawString(_font, text, new Vector2(x, y), color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
     }
 
     private void DrawWaveIntro(SpriteBatch b)
@@ -927,83 +961,132 @@ public class MiniGameScene : IScene
         var loc = _game.Loc;
         b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), Color.Black * 0.5f);
 
+        var pw = 520; var ph = 240;
+        var px = (_game.Width - pw) / 2; var py = (_game.Height - ph) / 2;
+        b.Draw(_panelCard, new Rectangle(px, py, pw, ph), Color.White);
+
+        var gold = new Color(212, 175, 55);
+        var darkBrown = new Color(62, 39, 35);
+
         var diffStr = _isEndless ? loc.Get("endless_mode") : loc.Get("normal_mode");
-        var diffSz = _font.MeasureString(diffStr);
-        b.DrawString(_font, diffStr, new Vector2((_game.Width - diffSz.X) / 2, _game.Height / 2 - 80), _isEndless ? Color.Red : Color.Gold);
+        DrawStringShadow(b, diffStr, (_game.Width, py + 30), gold);
 
         var waveStr = _currentWave == 0 ? $"WAVE 1" : $"WAVE {_currentWave + 1}";
         var sz = _font.MeasureString(waveStr);
-        b.DrawString(_font, waveStr, new Vector2((_game.Width - sz.X) / 2, _game.Height / 2 - 40), Color.Gold);
+        b.DrawString(_font, waveStr, new Vector2((_game.Width - sz.X) / 2, py + 80), darkBrown);
+
         var subKey = _currentWave == 0 ? "wave_sub_first" : "wave_sub_next";
         var sub = loc.Get(subKey);
         var subSz = _font.MeasureString(sub);
-        b.DrawString(_font, sub, new Vector2((_game.Width - subSz.X) / 2, _game.Height / 2 + 10), Color.LightGray);
+        b.DrawString(_font, sub, new Vector2((_game.Width - subSz.X) / 2, py + 130), new Color(100, 80, 60));
     }
 
     private void DrawGameOver(SpriteBatch b)
     {
         var loc = _game.Loc;
         b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), Color.Black * 0.6f);
-        var pw = 420; var ph = _isEndless ? 250 : 280;
+        var pw = 540; var ph = _isEndless ? 320 : 360;
         var px = (_game.Width - pw) / 2; var py = (_game.Height - ph) / 2;
-        b.Draw(_panelChapter, new Rectangle(px, py, pw, ph), Color.White);
-        b.Draw(_game.WhitePixel, new Rectangle(px + 4, py + 4, pw - 8, ph - 8), new Color(0, 0, 0, 100));
+        b.Draw(_panelCard, new Rectangle(px, py, pw, ph), Color.White);
+
+        var gold = new Color(212, 175, 55);
+        var darkBrown = new Color(62, 39, 35);
+
+        // Story completion (victory in normal mode) gets gold warm tint
+        bool isStoryComplete = _victory && !_isEndless;
+        if (isStoryComplete)
+            b.Draw(_game.WhitePixel, new Rectangle(px + 4, py + 4, pw - 8, ph - 8), gold * 0.06f);
+        else
+            b.Draw(_game.WhitePixel, new Rectangle(px + 4, py + 4, pw - 8, ph - 8), new Color(40, 20, 20) * 0.15f);
 
         if (_isEndless)
         {
             var t1 = "GAME OVER";
             var s1 = _font.MeasureString(t1);
-            b.DrawString(_font, t1, new Vector2((_game.Width - s1.X) / 2, py + 30), Color.Red);
+            b.DrawString(_font, t1, new Vector2((_game.Width - s1.X) / 2, py + 36), Color.Red);
 
             var wStr = loc.Format("wave", _currentWave, 999);
             var wSz = _font.MeasureString(wStr);
-            b.DrawString(_font, wStr, new Vector2((_game.Width - wSz.X) / 2, py + 70), Color.White);
+            b.DrawString(_font, wStr, new Vector2((_game.Width - wSz.X) / 2, py + 85), darkBrown);
 
             var fScoreStr = loc.Format("final_score", _score);
-            var fScoreSz = _font.MeasureString(fScoreStr);
-            b.DrawString(_font, fScoreStr, new Vector2((_game.Width - fScoreSz.X) / 2, py + 110), Color.Gold);
+            DrawStringShadow(b, fScoreStr, (_game.Width, py + 130), gold);
 
             var tKillsStr = loc.Format("total_elephants", _totalKills);
             var tKillsSz = _font.MeasureString(tKillsStr);
-            b.DrawString(_font, tKillsStr, new Vector2((_game.Width - tKillsSz.X) / 2, py + 140), Color.LightGray);
+            b.DrawString(_font, tKillsStr, new Vector2((_game.Width - tKillsSz.X) / 2, py + 165), darkBrown);
 
             if (_gameOverT > 2f)
             {
                 var tapStr = loc.Get("tap_replay");
                 var tapSz = _font.MeasureString(tapStr);
-                b.DrawString(_font, tapStr, new Vector2((_game.Width - tapSz.X) / 2, py + 190),
+                b.DrawString(_font, tapStr, new Vector2((_game.Width - tapSz.X) / 2, py + 240),
                     Color.White * (0.5f + (float)Math.Sin(_elapsed * 3) * 0.3f));
             }
         }
         else
         {
             var t1 = _victory ? loc.Get("victory") : loc.Get("game_over");
-            var c1 = _victory ? Color.Gold : Color.Red;
-            var s1 = _font.MeasureString(t1);
-            b.DrawString(_font, t1, new Vector2((_game.Width - s1.X) / 2, py + 30), c1);
+            var c1 = _victory ? gold : Color.Red;
+            DrawStringShadow(b, t1, (_game.Width, py + 36), c1);
 
             if (_victory)
             {
                 var sub = loc.Get("victory_sub");
                 var subSz = _font.MeasureString(sub);
-                b.DrawString(_font, sub, new Vector2((_game.Width - subSz.X) / 2, py + 70), Color.White);
+                b.DrawString(_font, sub, new Vector2((_game.Width - subSz.X) / 2, py + 85), darkBrown);
             }
 
             var fScoreStr = loc.Format("final_score", _score);
-            var fScoreSz = _font.MeasureString(fScoreStr);
-            b.DrawString(_font, fScoreStr, new Vector2((_game.Width - fScoreSz.X) / 2, py + 120), Color.Gold);
+            DrawStringShadow(b, fScoreStr, (_game.Width, py + 135), gold);
+
             var tKillsStr = loc.Format("total_elephants", _totalKills);
             var tKillsSz = _font.MeasureString(tKillsStr);
-            b.DrawString(_font, tKillsStr, new Vector2((_game.Width - tKillsSz.X) / 2, py + 150), Color.LightGray);
+            b.DrawString(_font, tKillsStr, new Vector2((_game.Width - tKillsSz.X) / 2, py + 175), darkBrown);
 
             if (_gameOverT > 2f)
             {
                 var tapStr = loc.Get("tap_replay");
                 var tapSz = _font.MeasureString(tapStr);
-                b.DrawString(_font, tapStr, new Vector2((_game.Width - tapSz.X) / 2, py + 210),
+                b.DrawString(_font, tapStr, new Vector2((_game.Width - tapSz.X) / 2, py + 260),
                     Color.White * (0.5f + (float)Math.Sin(_elapsed * 3) * 0.3f));
             }
         }
+    }
+
+    private void DrawStringShadow(SpriteBatch b, string text, (int screenW, int y) pos, Color color)
+    {
+        var sz = _font.MeasureString(text);
+        float x = (pos.screenW - sz.X) / 2;
+        b.DrawString(_font, text, new Vector2(x + 2, pos.y + 2), Color.Black * 0.35f);
+        b.DrawString(_font, text, new Vector2(x, pos.y), color);
+    }
+
+    private void DrawExitConfirm(SpriteBatch b)
+    {
+        var cw = 340; var ch = 140; var cx2 = (_game.Width - cw) / 2; var cy2 = (_game.Height - ch) / 2;
+        var panelR = new Rectangle(cx2, cy2, cw, ch);
+        b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), Color.Black * 0.65f);
+        b.Draw(_game.WhitePixel, panelR, new Color(50, 38, 30));
+        b.Draw(_game.WhitePixel, new Rectangle(panelR.X, panelR.Y, panelR.Width, 3), Color.Gold);
+        b.Draw(_game.WhitePixel, new Rectangle(panelR.X, panelR.Bottom - 3, panelR.Width, 3), Color.Gold);
+
+        var msg = "Apakah yakin keluar?";
+        var mSz = _font.MeasureString(msg);
+        b.DrawString(_font, msg, new Vector2(cx2 + (cw - mSz.X) / 2, cy2 + 16), new Color(255, 248, 225));
+
+        PopupBtn(b, _confirmYesRect, "Ya", true);
+        PopupBtn(b, _confirmNoRect, "Tidak", false);
+    }
+
+    private void PopupBtn(SpriteBatch b, Rectangle r, string text, bool isYes)
+    {
+        var bg = isYes ? new Color(194, 74, 47) : new Color(80, 70, 60);
+        b.Draw(_game.WhitePixel, r, bg);
+        b.Draw(_game.WhitePixel, new Rectangle(r.X, r.Y, r.Width, 2), Color.White * 0.2f);
+        b.Draw(_game.WhitePixel, new Rectangle(r.X, r.Y + r.Height - 2, r.Width, 2), Color.Black * 0.2f);
+        var sz = _font.MeasureString(text);
+        b.DrawString(_font, text, new Vector2(r.Center.X, r.Center.Y), new Color(255, 248, 225), 0, sz / 2, 0.8f, SpriteEffects.None, 0);
     }
 
     public void Unload()

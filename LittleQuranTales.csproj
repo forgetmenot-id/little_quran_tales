@@ -19,6 +19,11 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidLinkTool>r8</AndroidLinkTool>
     <AndroidEnableProguard>true</AndroidEnableProguard>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidSigningKeyStore>littlequran.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias>littlequran</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>LqTales2024!</AndroidSigningKeyPass>
+    <AndroidSigningStorePass>LqTales2024!</AndroidSigningStorePass>
     <AndroidUseDefaultProguardFile>true</AndroidUseDefaultProguardFile>
     <StripSymbols>true</StripSymbols>
     <DebugSymbols>false</DebugSymbols>
@@ -42,12 +47,23 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.9" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
     <PackageReference Include="MonoGame.Framework.Android" Version="3.8.*" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Android" Version="2.88.9" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.*" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="HarfBuzzSharp" Version="7.3.0.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Win32" Version="7.3.0.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Android" Version="7.3.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net9.0-android'">
@@ -55,11 +71,31 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
     <AndroidAsset Include="Content\bin\Android\Content\**\*.*" LogicalName="Content/%(RecursiveDir)%(Filename)%(Extension)" />
+    <AndroidAsset Include="Content\Fonts\**\*.*" LogicalName="Content/Fonts/%(RecursiveDir)%(Filename)%(Extension)" />
     <AndroidAsset Include="Data\**\*.json" />
+    <AndroidAsset Include="Content\quran.db" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <None Update="Content\quran.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\Fonts\*.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\**\*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Tools\**\*.cs" />
+    <None Include="Tools\**\*" />
+    <Compile Remove="SkiaTest\**\*" />
+    <None Include="SkiaTest\**\*" />
+  </ItemGroup>
+  <Target Name="RemoveToolsNativeLibs" BeforeTargets="ResolveAndroidNativeLibraries" Condition="'$(TargetFramework)' == 'net9.0-android'">
+    <ItemGroup>
+      <AndroidNativeLibrary Remove="$(MSBuildProjectDirectory)\Tools\**\*.so" />
+    </ItemGroup>
+  </Target>
 </Project>

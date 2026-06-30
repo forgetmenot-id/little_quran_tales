@@ -213,8 +213,65 @@
 /processor:SongProcessor
 /build:Audio/library/al-fil.ogg
 
+#begin Audio/library/al-alaq.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/build:Audio/library/al-alaq.ogg
+
 #begin Images/Sprites/spr_kabah.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:TextureFormat=DXTCompressed
 /build:Images/Sprites/spr_kabah.png
+
+#begin Images/BGs/bg_gua.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/BGs/bg_gua.jpg
+
+#begin Audio/BGM/bgm_minigame2.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/build:Audio/BGM/bgm_minigame2.ogg
+
+#begin Images/Sprites/spr_shadow_minion.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/Sprites/spr_shadow_minion.png
+
+#begin Images/Sprites/spr_shadow_boss.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/Sprites/spr_shadow_boss.png
+
+#begin Images/BGs/bg_kayu.jpeg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/BGs/bg_kayu.jpeg
+
+#begin Images/UI/panel_card.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/UI/panel_card.png
+
+#begin Images/UI/panel_game1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/UI/panel_game1.png
+
+#begin Images/UI/panel_game2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:TextureFormat=DXTCompressed
+/build:Images/UI/panel_game2.png
+
+#begin Effects/StorySelectionEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effects/StorySelectionEffect.fx

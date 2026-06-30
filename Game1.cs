@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using LittleQuranTales.Data;
 using LittleQuranTales.Scenes;
 using LittleQuranTales.Services;
@@ -9,18 +10,18 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace LittleQuranTales;
 
-public class Game1 : Game
-{
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-    private SceneManager _sceneManager;
-    private RenderTarget2D _virtualTarget;
+    public class Game1 : Game
+    {
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private SceneManager _sceneManager;
+        private RenderTarget2D _virtualTarget;
 
-    public int Width => GameConfig.VirtualWidth;
-    public int Height => GameConfig.VirtualHeight;
-    public SpriteBatch SpriteBatch => _spriteBatch;
-    public SceneManager SceneManager => _sceneManager;
-    public Texture2D WhitePixel { get; private set; }
+        public int Width => GameConfig.VirtualWidth;
+        public int Height => GameConfig.VirtualHeight;
+        public SpriteBatch SpriteBatch => _spriteBatch;
+        public SceneManager SceneManager => _sceneManager;
+        public Texture2D WhitePixel { get; private set; }
 
     public float ScaleX => _scaleX;
     public float ScaleY => _scaleY;
@@ -66,6 +67,8 @@ public class Game1 : Game
     public AudioManager Audio { get; private set; }
     public SaveManager Save { get; private set; }
     public LocalizationManager Loc { get; private set; }
+    public QuranDbService Quran { get; private set; }
+    public ArabicTextRenderer ArabicText { get; private set; }
 
     public Game1()
     {
@@ -96,6 +99,21 @@ public class Game1 : Game
         Loc.Load("Data/lang.json");
         Loc.SetLanguage(Save.Data.Language);
 
+        Quran = new QuranDbService();
+        var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content", "quran.db");
+#if ANDROID
+        if (!System.IO.File.Exists(dbPath))
+        {
+            var destDir = System.IO.Path.GetDirectoryName(dbPath);
+            if (!string.IsNullOrEmpty(destDir) && !System.IO.Directory.Exists(destDir))
+                System.IO.Directory.CreateDirectory(destDir);
+            using var stream = Android.App.Application.Context.Assets.Open("Content/quran.db");
+            using var dest = System.IO.File.OpenWrite(dbPath);
+            stream.CopyTo(dest);
+        }
+#endif
+        Quran.Load(dbPath);
+
         Audio.BgmVolume = Save.Data.BgmVolume;
         Audio.SfxVolume = Save.Data.SfxVolume;
 
@@ -109,6 +127,9 @@ public class Game1 : Game
         _sceneManager.Register(SceneId.Library, new LibraryScene(this));
         _sceneManager.Register(SceneId.MinigameGallery, new MiniGameGalleryScene(this));
         _sceneManager.Register(SceneId.Loading, new LoadingScene(this));
+        _sceneManager.Register(SceneId.WordOrder, new WordOrderScene(this));
+        _sceneManager.Register(SceneId.StorySelection, new StorySelectionScene(this));
+        _sceneManager.Register(SceneId.AlaqGame, new AlaqGameScene(this));
 
         _sceneManager.SwitchTo(SceneId.Splash);
 
@@ -121,40 +142,82 @@ public class Game1 : Game
         WhitePixel = new Texture2D(GraphicsDevice, 1, 1);
         WhitePixel.SetData(new[] { Color.White });
         _virtualTarget = new RenderTarget2D(GraphicsDevice, GameConfig.VirtualWidth, GameConfig.VirtualHeight);
+
+        var fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content", "Fonts", "Amiri-Regular.ttf");
+#if ANDROID
+        if (!File.Exists(fontPath))
+        {
+            var dir = Path.GetDirectoryName(fontPath);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            using var assetStream = Android.App.Application.Context.Assets.Open("Content/Fonts/Amiri-Regular.ttf");
+            using var fileStream = File.Create(fontPath);
+            assetStream.CopyTo(fileStream);
+        }
+#endif
+        ArabicText = new ArabicTextRenderer(GraphicsDevice, fontPath);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        _sceneManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        try
+        {
+            _sceneManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        }
+        catch (Exception ex)
+        {
+            LogHelper.Trace($"CRASH CAUGHT in Update: {ex.GetType().Name} - {ex.Message}");
+            LogHelper.WriteCrash(ex);
+        }
 
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.SetRenderTarget(_virtualTarget);
-        _sceneManager.Draw();
-        GraphicsDevice.SetRenderTarget(null);
+        try
+        {
+            try
+            {
+                GraphicsDevice.SetRenderTarget(_virtualTarget);
+                _sceneManager.Draw();
+            }
+            finally
+            {
+                GraphicsDevice.SetRenderTarget(null);
+            }
 
-        GraphicsDevice.Clear(Color.Black);
-        var bw = GraphicsDevice.PresentationParameters.BackBufferWidth;
-        var bh = GraphicsDevice.PresentationParameters.BackBufferHeight;
-        _scaleX = (float)bw / 1280;
-        _scaleY = (float)bh / 720;
-        float scale;
+            GraphicsDevice.Clear(Color.Black);
+            var bw = GraphicsDevice.PresentationParameters.BackBufferWidth;
+            var bh = GraphicsDevice.PresentationParameters.BackBufferHeight;
+            _scaleX = (float)bw / 1280;
+            _scaleY = (float)bh / 720;
+            float scale;
 #if ANDROID
-        scale = Math.Max(_scaleX, _scaleY);
+            scale = Math.Max(_scaleX, _scaleY);
 #else
-        scale = Math.Min(_scaleX, _scaleY);
+            scale = Math.Min(_scaleX, _scaleY);
 #endif
-        var destW = (int)(1280 * scale);
-        var destH = (int)(720 * scale);
-        var destX = (bw - destW) / 2;
-        var destY = (bh - destH) / 2;
-        _spriteBatch.Begin();
-        _spriteBatch.Draw(_virtualTarget, new Rectangle(destX, destY, destW, destH), Color.White);
-        _spriteBatch.End();
+            var destW = (int)(1280 * scale);
+            var destH = (int)(720 * scale);
+            var destX = (bw - destW) / 2;
+            var destY = (bh - destH) / 2;
+            try
+            {
+                _spriteBatch.Begin();
+                _spriteBatch.Draw(_virtualTarget, new Rectangle(destX, destY, destW, destH), Color.White);
+            }
+            finally
+            {
+                _spriteBatch.End();
+            }
 
-        base.Draw(gameTime);
+            base.Draw(gameTime);
+        }
+        catch (Exception ex)
+        {
+            LogHelper.Trace($"CRASH CAUGHT in Draw: {ex.GetType().Name} - {ex.Message}");
+            LogHelper.WriteCrash(ex);
+        }
     }
 }

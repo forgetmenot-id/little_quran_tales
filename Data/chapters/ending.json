@@ -1,7 +1,7 @@
 {
   "id": "ending_alfil",
   "title": "Surah Al-Fil",
-  "nextChapter": "",
+  "nextChapter": "return_story",
   "scenes": [
     {
       "id": "end_01",
@@ -122,8 +122,8 @@
       "id": "end_12",
       "effect": "fade_black",
       "narration": true,
-      "text": "--- To Be Continued ---\n\nKisah selanjutnya:\nChapter 2 - Al-Quraisy",
-      "textEn": "--- To Be Continued ---\n\nNext story:\nChapter 2 - Al-Quraisy"
+      "text": "--- To Be Continued ---\n\nKisah selanjutnya:\nChapter 2 - Al-'Alaq",
+      "textEn": "--- To Be Continued ---\n\nNext story:\nChapter 2 - Al-Alaq"
     }
   ]
 }

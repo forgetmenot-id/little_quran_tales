@@ -12,6 +12,9 @@ public static class SceneId
     public const string Library = "library";
     public const string MinigameGallery = "minigame_gallery";
     public const string Loading = "loading";
+    public const string WordOrder = "word_order";
+    public const string StorySelection = "story_selection";
+    public const string AlaqGame = "alaq_game";
 }
 
 /// <summary>Localization keys used in menu button lookups.</summary>
@@ -30,6 +33,8 @@ public static class ChapterPath
     public const string Directory = "Data/chapters/";
     public const string Prolog = "Data/chapters/prolog.json";
     public const string AlFil = "Data/chapters/al-fil.json";
+    public const string AlAlaq = "Data/chapters/al-alaq.json";
+    public const string AlAlaqEnd = "Data/chapters/al-alaq_end.json";
     public const string Ending = "Data/chapters/ending.json";
 }
 

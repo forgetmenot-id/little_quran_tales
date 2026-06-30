@@ -28,7 +28,6 @@ public class DialogueScene : IScene
     private bool _textComplete;
     private float _inputCooldown;
     private float _totalTime;
-
     private const float UIScale = 0.7f;
     private const float CharSpriteScale = 0.65f;
 
@@ -73,6 +72,9 @@ public class DialogueScene : IScene
     private Rectangle _homeRect;
     private bool _hoverHome;
 
+    private bool _showExitConfirm;
+    private Rectangle _confirmYesRect, _confirmNoRect;
+
     private readonly List<SpriteRender> _allSprites = new();
     private Texture2D _panelDialog;
 
@@ -106,6 +108,11 @@ public class DialogueScene : IScene
         _sfxClick = _game.Content.Load<SoundEffect>("Audio/SFX/sfx_click");
         _iconHome = _game.Content.Load<Texture2D>("Images/UI/icon_home");
         _panelDialog = _game.Content.Load<Texture2D>("Images/UI/panel_dialog");
+        var cw = 340; var ch = 140; var cx2 = (_game.Width - cw) / 2; var cy2 = (_game.Height - ch) / 2;
+        _confirmYesRect = new Rectangle(cx2 + 30, cy2 + ch - 52, 120, 36);
+        _confirmNoRect  = new Rectangle(cx2 + cw - 150, cy2 + ch - 52, 120, 36);
+        _showExitConfirm = false;
+
         _totalTime = 0;
         if (string.IsNullOrEmpty(_currentChapterFile))
             _currentChapterFile = ChapterPath.Prolog;
@@ -171,23 +178,44 @@ public class DialogueScene : IScene
         var mp = touch.Position;
         _hoverHome = _homeRect.Contains(mp);
 
+        if (_showExitConfirm)
+        {
+            if (touch.IsDown)
+            {
+                if (_confirmYesRect.Contains(mp))
+                {
+                    _showExitConfirm = false;
+                    Audio.PlaySfx(_sfxClick);
+                    Audio.StopBgm();
+                    _inputCooldown = GameConfig.ClickCooldown;
+                    _currentChapterFile = null;
+                    _game.SceneManager.SwitchTo(SceneId.Menu);
+                    return;
+                }
+                if (_confirmNoRect.Contains(mp))
+                {
+                    Audio.PlaySfx(_sfxClick);
+                    _showExitConfirm = false;
+                    _inputCooldown = GameConfig.ClickCooldown;
+                    return;
+                }
+            }
+            return;
+        }
+
         if ((Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) && _inputCooldown <= 0)
         {
             Audio.PlaySfx(_sfxClick);
-            Audio.StopBgm();
             _inputCooldown = GameConfig.ClickCooldown;
-            _currentChapterFile = null;
-            _game.SceneManager.SwitchTo(SceneId.Menu);
+            _showExitConfirm = true;
             return;
         }
 
         if (touch.IsDown && _hoverHome && _inputCooldown <= 0)
         {
             Audio.PlaySfx(_sfxClick);
-            Audio.StopBgm();
             _inputCooldown = GameConfig.ClickCooldown;
-            _currentChapterFile = null;
-            _game.SceneManager.SwitchTo(SceneId.Menu);
+            _showExitConfirm = true;
             return;
         }
 
@@ -203,30 +231,42 @@ public class DialogueScene : IScene
 
     private void ApplyData(DialogueSceneData s)
     {
-        if (!string.IsNullOrEmpty(s.Background) && s.Background != _currentBgName)
-        { _currentBgName = s.Background; _currentBg = _game.Content.Load<Texture2D>($"Images/BGs/{s.Background}"); _bgBrightness = 0f; }
-
-        if (!string.IsNullOrEmpty(s.Bgm) && s.Bgm != _currentBgmName)
+        try
         {
-            _currentBgmName = s.Bgm; Audio.StopBgm();
-            _currentBgm = _game.Content.Load<Song>($"Audio/BGM/{s.Bgm}");
-            Audio.PlayBgm(_currentBgm);
-        }
-
-        if (s.Sprites != null)
-        {
-            _allSprites.Clear();
-            foreach (var sd in s.Sprites)
+            if (!string.IsNullOrEmpty(s.Background) && s.Background != _currentBgName)
             {
-                var tex = _game.Content.Load<Texture2D>($"Images/Sprites/{sd.Name}");
-                _allSprites.Add(new SpriteRender
+                try { _currentBg = _game.Content.Load<Texture2D>($"Images/BGs/{s.Background}"); _currentBgName = s.Background; _bgBrightness = 0f; }
+                catch (Exception ex) { LogHelper.Trace($"ApplyData bg '{s.Background}' load failed: {ex.Message}"); }
+            }
+
+            if (!string.IsNullOrEmpty(s.Bgm) && s.Bgm != _currentBgmName)
+            {
+                _currentBgmName = s.Bgm; Audio.StopBgm();
+                try { _currentBgm = _game.Content.Load<Song>($"Audio/BGM/{s.Bgm}"); }
+                catch (Exception ex) { LogHelper.Trace($"ApplyData BGM load failed: {ex.Message}"); _currentBgm = null; _currentBgmName = null; }
+                if (_currentBgm != null) Audio.PlayBgm(_currentBgm);
+            }
+
+            if (s.Sprites != null)
+            {
+                _allSprites.Clear();
+                foreach (var sd in s.Sprites)
                 {
-                    Tex = tex,
-                    Name = sd.Name,
-                    JsonScale = sd.Scale
-                });
+                    try
+                    {
+                        var tex = _game.Content.Load<Texture2D>($"Images/Sprites/{sd.Name}");
+                        _allSprites.Add(new SpriteRender
+                        {
+                            Tex = tex,
+                            Name = sd.Name,
+                            JsonScale = sd.Scale
+                        });
+                    }
+                    catch (Exception ex) { LogHelper.Trace($"ApplyData sprite '{sd.Name}' load failed: {ex.Message}"); }
+                }
             }
         }
+        catch (Exception ex) { LogHelper.Trace($"ApplyData error: {ex.Message}"); }
 
         if (!string.IsNullOrEmpty(s.Effect) && s.Effect != _curFx)
         {
@@ -275,6 +315,7 @@ public class DialogueScene : IScene
 
     private void Advance()
     {
+        LogHelper.Trace($"Advance enter idx={_currentIndex} count={_chapter.Scenes.Count}");
         _currentIndex++;
         _fadeA = 0;
         if (_currentIndex >= _chapter.Scenes.Count)
@@ -282,15 +323,33 @@ public class DialogueScene : IScene
             if (!string.IsNullOrEmpty(_chapter.Id))
                 Save.MarkChapterCompleted(_chapter.Id);
 
+            _currentIndex = _chapter.Scenes.Count - 1;
             var n = _chapter.NextChapter;
-            if (!string.IsNullOrEmpty(n) && n != "minigame")
+            if (!string.IsNullOrEmpty(n) && n != "minigame" && n != "word_order" && n != "return_story")
             { _currentChapterFile = $"{ChapterPath.Directory}{n}.json"; LoadChapter(); return; }
             if (n == "minigame")
-            { Audio.StopBgm(); _game.SceneManager.SwitchTo(SceneId.Minigame); return; }
+            {
+                Audio.StopBgm();
+                var mg = _game.SceneManager.GetScene(SceneId.Minigame) as MiniGameScene;
+                if (mg != null) { mg.Difficulty = "normal"; mg.IsStoryMode = true; }
+                _game.SceneManager.SwitchTo(SceneId.Minigame);
+                return;
+            }
+            if (n == "word_order")
+            {
+                Audio.StopBgm();
+                var wo = _game.SceneManager.GetScene<WordOrderScene>(SceneId.WordOrder);
+                if (wo != null) wo.SetStoryMode(true);
+                _game.SceneManager.SwitchTo(SceneId.WordOrder);
+                return;
+            }
+            LogHelper.Trace("Advance return_story -> SwitchTo Menu");
             _currentChapterFile = null; Audio.StopBgm(); _game.SceneManager.SwitchTo(SceneId.Menu);
+            LogHelper.Trace("Advance return_story -> after SwitchTo");
         }
         else
         { _curFx = null; _shX = 0; _shY = 0; _waitClick = false; StartText(); }
+        LogHelper.Trace($"Advance done, idx={_currentIndex}");
     }
 
     public void Draw()
@@ -300,17 +359,25 @@ public class DialogueScene : IScene
         var b = _game.SpriteBatch;
 
         b.Begin(transformMatrix: m);
-        DrawBg(b);
-        DrawGlow(b);
-        if (_fadeA > 0)
-            b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), _fadeCol * _fadeA);
-        DrawSheet(b);
-        DrawReact(b);
-        DrawBox(b);
-        var iconSz = 40;
-        _homeRect = new Rectangle(_game.Width - iconSz - 10, 10, iconSz, iconSz);
-        b.Draw(_iconHome, _homeRect, _hoverHome ? Color.Gold : Color.White * 0.7f);
-        b.End();
+        try
+        {
+            DrawBg(b);
+            DrawGlow(b);
+            if (_fadeA > 0)
+                b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), _fadeCol * _fadeA);
+            DrawSheet(b);
+            DrawReact(b);
+            DrawBox(b);
+            var iconSz = 40;
+            _homeRect = new Rectangle(_game.Width - iconSz - 10, 10, iconSz, iconSz);
+            b.Draw(_iconHome, _homeRect, _hoverHome ? Color.Gold : Color.White * 0.7f);
+
+            if (_showExitConfirm) DrawExitConfirm(b);
+        }
+        finally
+        {
+            b.End();
+        }
     }
 
     private void DrawBg(SpriteBatch b)
@@ -339,12 +406,12 @@ public class DialogueScene : IScene
     private static bool IsCharacterName(string name)
     {
         var n = name.ToLowerInvariant();
-        return n.Contains("little_kid") || n.Contains("hudhud") || n.Contains("ababil");
+        return n.Contains("little_kid") || n.Contains("hudhud") || n.Contains("ababil") || n.Contains("shadow");
     }
 
     private static bool IsSpeakerACharacter(string speakerLower)
     {
-        return speakerLower.Contains("hudhud") || speakerLower.Contains("little") || speakerLower.Contains("kid") || speakerLower.Contains("ababil");
+        return speakerLower.Contains("hudhud") || speakerLower.Contains("little") || speakerLower.Contains("kid") || speakerLower.Contains("ababil") || speakerLower.Contains("bayangan");
     }
 
     private static bool IsBuku(string name)
@@ -366,6 +433,7 @@ public class DialogueScene : IScene
         if (speakerLower.Contains("little") || speakerLower.Contains("kid")) return n.Contains("little_kid");
         if (speakerLower.Contains("buku")) return n.Contains("buku_tua");
         if (speakerLower.Contains("ababil")) return n.Contains("ababil");
+        if (speakerLower.Contains("bayangan")) return n.Contains("shadow");
         return false;
     }
 
@@ -376,6 +444,7 @@ public class DialogueScene : IScene
         if (n.Contains("hudhud")) return BoxTop - h + 0;
         if (n.Contains("little_kid")) return BoxTop - h + (int)(35 * UIScale);
         if (n.Contains("ababil")) return BoxTop - h + (int)(18 * UIScale);
+        if (n.Contains("shadow")) return BoxTop - h + (int)(12 * UIScale);
         return BoxTop - h + (int)(12 * UIScale);
     }
 
@@ -449,6 +518,7 @@ public class DialogueScene : IScene
         if (s.Contains("little") || s.Contains("kid")) return loc.Get("chara_little_kid");
         if (s.Contains("buku")) return loc.Get("chara_buku_tua");
         if (s.Contains("ababil")) return loc.Get("chara_ababil");
+        if (s.Contains("bayangan")) return loc.Get("chara_bayangan");
         return speaker;
     }
 
@@ -507,8 +577,36 @@ public class DialogueScene : IScene
         return _gt;
     }
 
+    private void DrawExitConfirm(SpriteBatch b)
+    {
+        var cw = 340; var ch = 140; var cx2 = (_game.Width - cw) / 2; var cy2 = (_game.Height - ch) / 2;
+        var panelR = new Rectangle(cx2, cy2, cw, ch);
+        b.Draw(_game.WhitePixel, new Rectangle(0, 0, _game.Width, _game.Height), Color.Black * 0.65f);
+        b.Draw(_game.WhitePixel, panelR, new Color(50, 38, 30));
+        b.Draw(_game.WhitePixel, new Rectangle(panelR.X, panelR.Y, panelR.Width, 3), NavColor);
+        b.Draw(_game.WhitePixel, new Rectangle(panelR.X, panelR.Bottom - 3, panelR.Width, 3), NavColor);
+
+        var msg = "Apakah yakin keluar?";
+        var mSz = _font.MeasureString(msg);
+        b.DrawString(_font, msg, new Vector2(cx2 + (cw - mSz.X) / 2, cy2 + 16), TextColor);
+
+        DrawPopupBtn(b, _confirmYesRect, "Ya", true);
+        DrawPopupBtn(b, _confirmNoRect, "Tidak", false);
+    }
+
+    private void DrawPopupBtn(SpriteBatch b, Rectangle r, string text, bool isYes)
+    {
+        var bg = isYes ? new Color(194, 74, 47) : new Color(80, 70, 60);
+        b.Draw(_game.WhitePixel, r, bg);
+        b.Draw(_game.WhitePixel, new Rectangle(r.X, r.Y, r.Width, 2), Color.White * 0.2f);
+        b.Draw(_game.WhitePixel, new Rectangle(r.X, r.Y + r.Height - 2, r.Width, 2), Color.Black * 0.2f);
+        var sz = _font.MeasureString(text);
+        b.DrawString(_font, text, new Vector2(r.Center.X, r.Center.Y), TextColor, 0, sz / 2, 0.8f, SpriteEffects.None, 0);
+    }
+
     public void Unload()
     {
+        LogHelper.Trace($"DialogueScene.Unload");
         Audio.StopBgm();
         if (_gt != null) { _gt.Dispose(); _gt = null; }
     }

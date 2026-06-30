@@ -1,0 +1,112 @@
+{
+  "id": "ending_alaq",
+  "title": "Surah Al-Alaq",
+  "nextChapter": "return_story",
+  "scenes": [
+    {
+      "id": "alaq_end_01",
+      "background": "bg_gua",
+      "bgm": "bgm_minigame2",
+      "effect": "fade_in",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Semua menjadi sunyi.\nDari langit turun cahaya putih.",
+      "textEn": "Everything falls silent.\nA white light descends from the sky."
+    },
+    {
+      "id": "alaq_end_02",
+      "background": "bg_gua",
+      "effect": "golden_glow",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Suara yang sangat lembut terdengar:\n\n«\"Bacalah...\"\n\"Dengan nama Tuhanmu yang menciptakan.\"»",
+      "textEn": "A very gentle voice is heard:\n\n«\"Read...\"\n\"In the name of your Lord who created.\"»"
+    },
+    {
+      "id": "alaq_end_03",
+      "background": "bg_gua",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Little Kid menatap langit.\nHudhud ikut terdiam.",
+      "textEn": "Little Kid gazes at the sky.\nHudhud also falls silent."
+    },
+    {
+      "id": "alaq_end_04",
+      "background": "bg_gua",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Inilah kata pertama.\"\n\"Bukan pedang.\"\n\"Bukan perang.\"\n\"Tetapi... bacalah.\"»",
+      "textEn": "«\"This is the first word.\"\n\"Not a sword.\"\n\"Not war.\"\n\"But... read.\"»"
+    },
+    {
+      "id": "alaq_end_05",
+      "background": "bg_gua",
+      "effect": "golden_glow",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 }
+      ],
+      "text": "Halaman kosong kitab mulai terisi.\nTulisan emas muncul satu demi satu.\n\nسورة العلق",
+      "textEn": "The empty pages of the book begin to fill.\nGolden writing appears one by one.\n\nSurah Al-Alaq"
+    },
+    {
+      "id": "alaq_end_06",
+      "background": "bg_gua",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Dari sebuah gua...\"\n\"Cahaya itu akan menyebar ke seluruh dunia.\"»",
+      "textEn": "«\"From a cave...\"\n\"The light will spread across the entire world.\"»"
+    },
+    {
+      "id": "alaq_end_07",
+      "background": "bg_gua",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Jadi...\"\n\"Semua ini dimulai... dengan sebuah kata?\"»",
+      "textEn": "«\"So...\"\n\"All of this started... with a word?\"»"
+    },
+    {
+      "id": "alaq_end_08",
+      "background": "bg_gua",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Ya.\"\n\"Dan setiap kisah besar...\"\n\"Dimulai dengan ilmu.\"»",
+      "textEn": "«\"Yes.\"\n\"And every great story...\"\n\"Begins with knowledge.\"»"
+    },
+    {
+      "id": "alaq_end_09",
+      "effect": "fade_black",
+      "narration": true,
+      "text": "Layar perlahan gelap.\n\n--- END CHAPTER 2 ---\nSURAH AL-'ALAQ — BACA!",
+      "textEn": "The screen slowly darkens.\n\n--- END CHAPTER 2 ---\nSURAH AL-ALAQ — READ!"
+    }
+  ]
+}

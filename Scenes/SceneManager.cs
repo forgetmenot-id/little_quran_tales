@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LittleQuranTales.Services;
 
 namespace LittleQuranTales.Scenes;
 
@@ -19,12 +20,15 @@ public class SceneManager
 
     public void SwitchTo(string id)
     {
-        if (!_scenes.ContainsKey(id)) return;
+        LogHelper.Trace($"SceneManager.SwitchTo({id}) currentId={_currentId}");
+        if (!_scenes.ContainsKey(id)) { LogHelper.Trace($"SceneManager scene not found: {id}"); return; }
 
         _current?.Unload();
         _current = _scenes[id];
         _currentId = id;
+        LogHelper.Trace($"SceneManager before Load({id})");
         _current.Load();
+        LogHelper.Trace($"SceneManager.SwitchTo done id={id}");
     }
 
     public void SwitchTo(string id, bool skipLoad)

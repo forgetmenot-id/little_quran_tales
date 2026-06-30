@@ -1,0 +1,188 @@
+{
+  "id": "al-alaq",
+  "title": "Chapter 2 - Bacalah",
+  "bgm": "bgm_prolog",
+  "nextChapter": "word_order",
+  "scenes": [
+    {
+      "id": "alaq_01",
+      "bgm": "bgm_minigame2",
+      "effect": "fade_in",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 }
+      ],
+      "text": "Layar masih gelap.\nTulisan pada buku tua:\n\nسورة الفيل\n\nPerlahan menghilang.",
+      "textEn": "The screen is still dark.\nWriting on the ancient book:\n\nSurah Al-Fil\n\nSlowly fading."
+    },
+    {
+      "id": "alaq_02",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 }
+      ],
+      "text": "Halaman berikutnya terbuka sendiri.\nAngin bertiup.\nCahaya keemasan keluar dari dalam kitab.",
+      "textEn": "The next page opens by itself.\nWind blows.\nGolden light pours out from the book."
+    },
+    {
+      "id": "alaq_03",
+      "effect": "golden_glow",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Sebuah kota telah diselamatkan.\"\n\"Dan kini...\"\n\"Telah tiba waktunya bagi cahaya pertama untuk turun.\"»",
+      "textEn": "«\"A city has been saved.\"\n\"And now...\"\n\"The time has come for the first light to descend.\"»"
+    },
+    {
+      "id": "alaq_04",
+      "effect": "fade_white",
+      "narration": true,
+      "text": "Cahaya menyelimuti Little Kid dan Hudhud.\nMereka kembali masuk ke dalam pusaran cahaya.",
+      "textEn": "Light envelops Little Kid and Hudhud.\nThey enter the vortex of light once again."
+    },
+    {
+      "id": "alaq_05",
+      "background": "bg_gua",
+      "effect": "fade_in",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "GUA DI ATAS GUNUNG\nMalam.\nBintang memenuhi langit.",
+      "textEn": "CAVE ON THE MOUNTAIN\nNight.\nStars fill the sky."
+    },
+    {
+      "id": "alaq_06",
+      "background": "bg_gua",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Little Kid membuka mata.\nIa kembali menjadi manusia.\nHudhud mendarat di pundaknya.",
+      "textEn": "Little Kid opens his eyes.\nHe is human again.\nHudhud lands on his shoulder."
+    },
+    {
+      "id": "alaq_07",
+      "background": "bg_gua",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Tempat apa ini?\"\n\"Kenapa terasa begitu tenang?\"»",
+      "textEn": "«\"What is this place?\"\n\"Why does it feel so peaceful?\"»"
+    },
+    {
+      "id": "alaq_08",
+      "background": "bg_gua",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Sebelum dunia berubah...\"\n\"Seorang lelaki sering datang ke tempat ini.\"\n\"Ia mencari jawaban.\"\n\"Ia merenungi langit dan bumi.\"»",
+      "textEn": "«\"Before the world changed...\"\n\"A man often came to this place.\"\n\"He was seeking answers.\"\n\"He pondered the sky and the earth.\"»"
+    },
+    {
+      "id": "alaq_09",
+      "background": "bg_gua",
+      "effect": "golden_glow",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Malam ini...\nAkan menjadi awal sebuah kisah besar.",
+      "textEn": "Tonight...\nWill be the beginning of a great story."
+    },
+    {
+      "id": "alaq_10",
+      "background": "bg_gua",
+      "narration": true,
+      "sprites": [
+        { "name": "spr_shadow_minion", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "Tiba-tiba...\nBayangan hitam muncul dari bebatuan.\nMereka memakai topeng gelap.\nMata mereka merah.",
+      "textEn": "Suddenly...\nDark shadows emerge from the rocks.\nThey wear dark masks.\nTheir eyes are red."
+    },
+    {
+      "id": "alaq_11",
+      "background": "bg_gua",
+      "speaker": "BAYANGAN",
+      "sprites": [
+        { "name": "spr_shadow_minion", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Jangan masuk.\"»",
+      "textEn": "«\"Do not enter.\"»"
+    },
+    {
+      "id": "alaq_12",
+      "background": "bg_gua",
+      "speaker": "BAYANGAN",
+      "sprites": [
+        { "name": "spr_shadow_minion", "scale": 0.5 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Jangan mencari ilmu.\"»",
+      "textEn": "«\"Do not seek knowledge.\"»"
+    },
+    {
+      "id": "alaq_13",
+      "background": "bg_gua",
+      "speaker": "BAYANGAN",
+      "sprites": [
+        { "name": "spr_shadow_boss", "scale": 0.55 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Biarkan dunia tetap gelap.\"»",
+      "textEn": "«\"Leave the world in darkness.\"»"
+    },
+    {
+      "id": "alaq_14",
+      "background": "bg_gua",
+      "speaker": "HUDHUD",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Aku tidak suka mereka...\"»",
+      "textEn": "«\"I don't like them...\"»"
+    },
+    {
+      "id": "alaq_15",
+      "background": "bg_gua",
+      "speaker": "BUKU TUA",
+      "sprites": [
+        { "name": "spr_buku_tua", "scale": 0.45 },
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Mereka adalah para Penghalang.\"\n\"Di setiap zaman...\"\n\"Selalu ada yang berusaha memadamkan cahaya.\"»",
+      "textEn": "«\"They are the Blockers.\"\n\"In every age...\"\n\"There are those who try to extinguish the light.\"»"
+    },
+    {
+      "id": "alaq_16",
+      "background": "bg_gua",
+      "speaker": "LITTLE KID",
+      "sprites": [
+        { "name": "spr_little_kid", "scale": 0.55 },
+        { "name": "spr_hudhud", "scale": 0.65 }
+      ],
+      "text": "«\"Kalau begitu...\"\n\"Ayo kita nyalakan kembali cahayanya.\"»",
+      "textEn": "«\"Then...\"\n\"Let's relight the light.\"»"
+    }
+  ]
+}
