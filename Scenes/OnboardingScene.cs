@@ -54,10 +54,15 @@ public class OnboardingScene : IScene
         var checkSz = 28;
 
         _privacyCheck = new Rectangle(checkX, checkY1, checkSz, checkSz);
-        _privacyLink  = new Rectangle(checkX + checkSz + 12, checkY1 - 4, 320, checkSz + 8);
+
+        var tempLoc = _game.Loc;
+        var prefixW = (int)_font.MeasureString(tempLoc.Get("agree_prefix")).X;
+        var linkW = (int)_font.MeasureString(tempLoc.Get("privacy_policy")).X;
+
+        _privacyLink = new Rectangle(checkX + checkSz + 12 + prefixW, checkY1 - 4, linkW, checkSz + 8);
 
         _termsCheck   = new Rectangle(checkX, checkY2, checkSz, checkSz);
-        _termsLink    = new Rectangle(checkX + checkSz + 12, checkY2 - 4, 320, checkSz + 8);
+        _termsLink    = new Rectangle(checkX + checkSz + 12 + prefixW, checkY2 - 4, linkW, checkSz + 8);
 
         _doneBtn = new Rectangle(_panelX + PanelW / 2 - 100, _panelY + PanelH - 70, 200, 48);
 
@@ -72,13 +77,13 @@ public class OnboardingScene : IScene
         var touch = _game.GetTouch();
         var mp = touch.Position;
 
-        if (!touch.IsDown) return;
-        if (_inputCooldown > 0) return;
-
-        // checkbox toggles
+        // hover states (update every frame for desktop mouse hover)
         _hoverPrivacyLink = _privacyLink.Contains(mp);
         _hoverTermsLink = _termsLink.Contains(mp);
         _hoverDone = _doneBtn.Contains(mp);
+
+        if (!touch.IsDown) return;
+        if (_inputCooldown > 0) return;
 
         if (_privacyCheck.Contains(mp))
         {
@@ -173,17 +178,20 @@ public class OnboardingScene : IScene
 
         // privacy row
         DrawCheckbox(b, _privacyCheck, _privacyChecked);
-        var privacyText = loc.Get("agree_privacy");
-        b.DrawString(_font, privacyText,
-            new Vector2(_privacyLink.X, _privacyLink.Y + 4),
-            _hoverPrivacyLink ? _gold : _cream);
+        var prefix = loc.Get("agree_prefix");
+        var privacyLinkText = loc.Get("privacy_policy");
+        var prefixPos = new Vector2(_privacyCheck.X + 40, _privacyCheck.Y + 4);
+        var linkPos = new Vector2(prefixPos.X + _font.MeasureString(prefix).X, prefixPos.Y);
+        b.DrawString(_font, prefix, prefixPos, _cream);
+        b.DrawString(_font, privacyLinkText, linkPos, _hoverPrivacyLink ? _gold : _gold * 0.7f);
 
         // terms row
         DrawCheckbox(b, _termsCheck, _termsChecked);
-        var termsText = loc.Get("agree_terms");
-        b.DrawString(_font, termsText,
-            new Vector2(_termsLink.X, _termsLink.Y + 4),
-            _hoverTermsLink ? _gold : _cream);
+        var termsLinkText = loc.Get("terms_conditions");
+        var prefixPos2 = new Vector2(_termsCheck.X + 40, _termsCheck.Y + 4);
+        var linkPos2 = new Vector2(prefixPos2.X + _font.MeasureString(prefix).X, prefixPos2.Y);
+        b.DrawString(_font, prefix, prefixPos2, _cream);
+        b.DrawString(_font, termsLinkText, linkPos2, _hoverTermsLink ? _gold : _gold * 0.7f);
 
         // done button
         var canDone = _privacyChecked && _termsChecked;
