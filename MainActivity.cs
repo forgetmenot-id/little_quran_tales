@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 namespace LittleQuranTales;
 
 [Activity(
-    Name = "com.littlequrantales.app.MainActivity",
+    Name = "com.forgetmenot.littlequrantales.MainActivity",
     MainLauncher = true,
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.UiMode,
     ScreenOrientation = ScreenOrientation.Landscape)]

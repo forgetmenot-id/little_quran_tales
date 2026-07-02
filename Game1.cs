@@ -130,6 +130,7 @@ namespace LittleQuranTales;
         _sceneManager.Register(SceneId.WordOrder, new WordOrderScene(this));
         _sceneManager.Register(SceneId.StorySelection, new StorySelectionScene(this));
         _sceneManager.Register(SceneId.AlaqGame, new AlaqGameScene(this));
+        _sceneManager.Register(SceneId.Onboarding, new OnboardingScene(this));
 
         _sceneManager.SwitchTo(SceneId.Splash);
 

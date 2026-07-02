@@ -43,7 +43,8 @@ public class SaveManager
             SfxVolume = Data.SfxVolume,
             Language = Data.Language,
             CompletedChapters = new System.Collections.Generic.List<string>(Data.CompletedChapters),
-            MiniGameScores = new System.Collections.Generic.Dictionary<string, int>(Data.MiniGameScores)
+            MiniGameScores = new System.Collections.Generic.Dictionary<string, int>(Data.MiniGameScores),
+            HasAgreedToTerms = Data.HasAgreedToTerms
         };
         Task.Run(() =>
         {

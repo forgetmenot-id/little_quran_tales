@@ -19,4 +19,7 @@ public class SaveData
 
     [JsonPropertyName("miniGameScores")]
     public Dictionary<string, int> MiniGameScores { get; set; } = new();
+
+    [JsonPropertyName("hasAgreedToTerms")]
+    public bool HasAgreedToTerms { get; set; } = false;
 }

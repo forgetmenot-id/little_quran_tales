@@ -15,6 +15,7 @@ public static class SceneId
     public const string WordOrder = "word_order";
     public const string StorySelection = "story_selection";
     public const string AlaqGame = "alaq_game";
+    public const string Onboarding = "onboarding";
 }
 
 /// <summary>Localization keys used in menu button lookups.</summary>

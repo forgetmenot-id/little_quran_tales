@@ -41,6 +41,7 @@
 /processorParam:TextureFormat=DXTCompressed
 /build:Images/UI/menu_logo.png
 
+
 #begin Images/UI/icon_story.png
 /importer:TextureImporter
 /processor:TextureProcessor

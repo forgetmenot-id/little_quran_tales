@@ -70,7 +70,8 @@ public class SplashScene : IScene
                 {
                     _transitioning = true;
                     var loading = (LoadingScene)_game.SceneManager.GetScene(SceneId.Loading);
-                    loading.SetTarget(SceneId.Menu);
+                    var target = _game.Save.Data.HasAgreedToTerms ? SceneId.Menu : SceneId.Onboarding;
+                    loading.SetTarget(target);
                     _game.SceneManager.SwitchTo(SceneId.Loading);
                 }
                 break;

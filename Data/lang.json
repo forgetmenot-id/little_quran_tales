@@ -92,7 +92,15 @@
     "alaq_listen_title": "Dengarkan Surah Al-Alaq",
     "alaq_listen_sub": "Renungkan maknanya...",
     "alaq_progress": "Bagian {0}/{1}",
-    "alaq_attempts": "Kesempatan: {0}x"
+    "alaq_attempts": "Kesempatan: {0}x",
+    "onboarding_title": "Selamat Datang",
+    "onboarding_desc": "Sebelum memulai, mohon baca dan setujui:",
+    "agree_privacy": "Saya menyetujui Kebijakan Privasi",
+    "agree_terms": "Saya menyetujui Syarat & Ketentuan",
+    "privacy_policy": "Kebijakan Privasi",
+    "terms_conditions": "Syarat & Ketentuan",
+    "onboarding_done": "Lanjut",
+    "onboarding_required": "Setujui kedua dokumen untuk melanjutkan"
   },
   "en": {
     "settings_title": "Settings",
@@ -187,6 +195,14 @@
     "alaq_listen_title": "Listen to Surah Al-Alaq",
     "alaq_listen_sub": "Reflect on its meaning...",
     "alaq_progress": "Part {0}/{1}",
-    "alaq_attempts": "Attempts: {0}x"
+    "alaq_attempts": "Attempts: {0}x",
+    "onboarding_title": "Welcome",
+    "onboarding_desc": "Before you start, please read and agree to:",
+    "agree_privacy": "I agree to the Privacy Policy",
+    "agree_terms": "I agree to the Terms & Conditions",
+    "privacy_policy": "Privacy Policy",
+    "terms_conditions": "Terms & Conditions",
+    "onboarding_done": "Done",
+    "onboarding_required": "Please agree to both documents to continue"
   }
 }
